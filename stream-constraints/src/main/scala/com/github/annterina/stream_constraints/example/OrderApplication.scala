@@ -10,6 +10,8 @@ import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.kstream.{Consumed, Produced}
 import org.apache.kafka.streams.{KafkaStreams, StreamsConfig, Topology}
 import org.slf4j.{Logger, LoggerFactory}
+import com.github.annterina.stream_constraints.constraints.Deduplicate
+import java.util.concurrent.TimeUnit
 
 object OrderApplication extends App {
 
@@ -18,7 +20,7 @@ object OrderApplication extends App {
   val kafkaStreamsConfig: Properties = {
     val properties = new Properties()
     properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "order-application")
-    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka.docker:9092")
+    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "Amrita:9092")
     properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
     properties
   }
@@ -31,12 +33,18 @@ object OrderApplication extends App {
     .link((_, e) => e.key)(Serdes.Integer)
     .build(Serdes.String, orderEventSerde)
 
+  val deduplicate = new ConstraintBuilder[String, OrderEvent, Integer]
+    .deduplicate(((_, e) => e.action == "CREATED", "order-created"))
+    .redirect("deduplicate-orders-redirect")
+    .link((_, e) => e.key)(Serdes.Integer)
+    .build(Serdes.String, orderEventSerde)
+
   val builder = new CStreamsBuilder()
 
   builder
     .stream("orders")(Consumed.`with`(Serdes.String, orderEventSerde))
     .selectKey((_, value) => value.key.toString)
-    .constrain(constraint)
+    .constrain(deduplicate)
     .to("orders-output-topic")(Produced.`with`(Serdes.String, orderEventSerde))
 
   val topology: Topology = builder.build()

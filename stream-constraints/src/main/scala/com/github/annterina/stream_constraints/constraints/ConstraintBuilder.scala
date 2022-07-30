@@ -4,16 +4,21 @@ import com.github.annterina.stream_constraints.constraints.window.WindowConstrai
 import org.apache.kafka.common.serialization.Serde
 
 import scala.collection.mutable
+import java.util.concurrent.TimeUnit
+import java.util.function.BiFunction
+import java.time.Duration
 
 class ConstraintBuilder[K, V, L] {
 
   private val prerequisites: mutable.Set[Prerequisite[K, V]] = mutable.Set.empty
   private val terminals: mutable.Set[Terminal[K, V]] = mutable.Set.empty
+  private val deduplicates: mutable.Set[Deduplicate[K, V]] = mutable.Set.empty
   private val windowConstraints: mutable.Set[WindowConstraint[K, V]] = mutable.Set.empty
 
   private val constraintNames: mutable.Map[String, (K, V) => Boolean] = mutable.Map.empty
   private var redirectTopic: Option[String] = None
   private var fullWindows: Boolean = false
+
 
   def prerequisite(before: ((K, V) => Boolean, String), after: ((K, V) => Boolean, String)): ConstraintBuilder[K, V, L] = {
     prerequisites.add(new Prerequisite[K, V](before, after))
@@ -35,6 +40,11 @@ class ConstraintBuilder[K, V, L] {
     this
   }
 
+  def deduplicate(deduplicate: ((K, V) => Boolean, String)): ConstraintBuilder[K, V, L] = {
+    deduplicates.add(new Deduplicate[K,V](deduplicate))
+    this
+  }
+
   def redirect(topic: String): ConstraintBuilder[K, V, L] = {
     redirectTopic = Some(topic)
     this
@@ -47,7 +57,7 @@ class ConstraintBuilder[K, V, L] {
 
 
   def link(f: (K, V) => L)(implicit serde: Serde[L]): ConditionConstraintBuilder[K, V, L] = {
-    val constraint = Constraint[K, V, L](prerequisites.toSet, windowConstraints.toSet, terminals.toSet,
+    val constraint = Constraint[K, V, L](prerequisites.toSet, windowConstraints.toSet, deduplicates.toSet, terminals.toSet,
       constraintNames.toMap, redirectTopic, fullWindows).withLink(f, serde)
     new ConditionConstraintBuilder[K, V, L](constraint)
   }

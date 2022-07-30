@@ -3,15 +3,15 @@ package com.github.annterina.stream_constraints
 import com.github.annterina.stream_constraints.constraints.Constraint
 import com.github.annterina.stream_constraints.graphs.{ConstraintNode, GraphVisualization, WindowLabel}
 import com.github.annterina.stream_constraints.stores.PrerequisiteStores
-import com.github.annterina.stream_constraints.transformers.{Redirect, StateConstraintTransformer, WindowConstraintTransformer}
+import com.github.annterina.stream_constraints.transformers.{Redirect, StateConstraintTransformer, WindowConstraintTransformer, DeduplicateTransformer}
 import org.apache.kafka.streams.scala.StreamsBuilder
 import org.apache.kafka.streams.scala.kstream.{KStream, Produced}
+
 import scalax.collection.GraphEdge.DiEdge
 import scalax.collection.GraphPredef.EdgeAssoc
 import scalax.collection.edge.Implicits.any2XEdgeAssoc
 import scalax.collection.edge.LDiEdge
 import scalax.collection.mutable.Graph
-
 import scala.collection.mutable
 
 class ConstrainedKStream[K, V, L](inner: KStream[K, V], builder: StreamsBuilder) {
@@ -38,6 +38,10 @@ class ConstrainedKStream[K, V, L](inner: KStream[K, V], builder: StreamsBuilder)
     builder.addStateStore(terminated)
     constraintStateStores.add(terminated.name)
 
+    val deduplicates = storeProvider.deduplicateStore()
+    builder.addStateStore(deduplicates)
+    constraintStateStores.add(deduplicates.name)
+
     val constraintGraph = windowConstraintGraph(constraint)
     val graphTemplate = prerequisiteGraph(constraint)
     GraphVisualization.visualize(constraintGraph, graphTemplate)
@@ -57,12 +61,18 @@ class ConstrainedKStream[K, V, L](inner: KStream[K, V], builder: StreamsBuilder)
 
     val windowedConstrainedStream = redirect(windowStream, constraint)
 
+
     val prerequisiteStream = windowedConstrainedStream
       .transform(() => new StateConstraintTransformer(constraint, graphTemplate), constraintStateStores.toList:_*)
 
     val prerequisiteConstrainedStream = redirect(prerequisiteStream, constraint)
 
-    new ConstrainedKStream(prerequisiteConstrainedStream, builder)
+    val deduplicateStream = prerequisiteConstrainedStream.transform(() => new DeduplicateTransformer(constraint, 
+     ((value1: V, value2: V) => value1 == value2)), constraintStateStores.toList:_*)
+    
+    val deduplicateConstrainedStream = redirect(deduplicateStream, constraint)
+
+    new ConstrainedKStream(deduplicateConstrainedStream, builder)
   }
 
   def map[KR, VR](mapper: (K, V) => (KR, VR)): ConstrainedKStream[KR, VR, L] =
