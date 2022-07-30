@@ -6,6 +6,7 @@ import org.apache.kafka.common.serialization.Serde
 case class Constraint[K, V, L](prerequisites : Set[Prerequisite[K, V]],
                                     windowConstraints: Set[WindowConstraint[K, V]],
                                     terminals: Set[Terminal[K, V]],
+                                    deduplicates: Set[Deduplicate[K, V]],
                                     names: Map[String, (K, V) => Boolean],
                                     redirectTopic: Option[String],
                                     withFullWindows: Boolean) {
@@ -36,3 +37,5 @@ case class Constraint[K, V, L](prerequisites : Set[Prerequisite[K, V]],
 case class Prerequisite[K, V](before: ((K, V) => Boolean, String), after: ((K, V) => Boolean, String)) {}
 
 case class Terminal[K, V](terminal: ((K, V) => Boolean, String)) {}
+
+case class Deduplicate[K, V](deduplicate: ((K, V) => Boolean, String)) {}

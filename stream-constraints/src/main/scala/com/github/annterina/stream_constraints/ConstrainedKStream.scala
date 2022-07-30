@@ -38,6 +38,10 @@ class ConstrainedKStream[K, V, L](inner: KStream[K, V], builder: StreamsBuilder)
     builder.addStateStore(terminated)
     constraintStateStores.add(terminated.name)
 
+    val deduplicated = storeProvider.deduplicatedStore()
+    builder.addStateStore(deduplicated)
+    constraintStateStores.add(deduplicated.name)
+
     val constraintGraph = windowConstraintGraph(constraint)
     val graphTemplate = prerequisiteGraph(constraint)
     GraphVisualization.visualize(constraintGraph, graphTemplate)

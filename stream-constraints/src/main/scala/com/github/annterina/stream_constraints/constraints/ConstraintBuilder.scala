@@ -9,6 +9,7 @@ class ConstraintBuilder[K, V, L] {
 
   private val prerequisites: mutable.Set[Prerequisite[K, V]] = mutable.Set.empty
   private val terminals: mutable.Set[Terminal[K, V]] = mutable.Set.empty
+  private val deduplicates: mutable.Set[Deduplicate[K, V]] = mutable.Set.empty
   private val windowConstraints: mutable.Set[WindowConstraint[K, V]] = mutable.Set.empty
 
   private val constraintNames: mutable.Map[String, (K, V) => Boolean] = mutable.Map.empty
@@ -25,6 +26,11 @@ class ConstraintBuilder[K, V, L] {
   def terminal(terminal: ((K, V) => Boolean, String)): ConstraintBuilder[K, V, L] = {
     terminals.add(new Terminal[K, V](terminal))
     constraintNames += terminal.swap
+    this
+  }
+
+   def deduplicate(deduplicate: ((K, V) => Boolean, String)): ConstraintBuilder[K, V, L] = {
+    deduplicates.add(new Deduplicate[K, V](deduplicate))
     this
   }
 
@@ -47,7 +53,7 @@ class ConstraintBuilder[K, V, L] {
 
 
   def link(f: (K, V) => L)(implicit serde: Serde[L]): ConditionConstraintBuilder[K, V, L] = {
-    val constraint = Constraint[K, V, L](prerequisites.toSet, windowConstraints.toSet, terminals.toSet,
+    val constraint = Constraint[K, V, L](prerequisites.toSet, windowConstraints.toSet, terminals.toSet, deduplicates.toSet,
       constraintNames.toMap, redirectTopic, fullWindows).withLink(f, serde)
     new ConditionConstraintBuilder[K, V, L](constraint)
   }

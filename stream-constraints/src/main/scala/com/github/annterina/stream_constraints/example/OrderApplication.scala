@@ -18,7 +18,7 @@ object OrderApplication extends App {
   val kafkaStreamsConfig: Properties = {
     val properties = new Properties()
     properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "order-application")
-    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka.docker:9092")
+    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
     properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
     properties
   }
@@ -31,12 +31,19 @@ object OrderApplication extends App {
     .link((_, e) => e.key)(Serdes.Integer)
     .build(Serdes.String, orderEventSerde)
 
+   val deduplicateConstraint = new ConstraintBuilder[String, OrderEvent, Integer]
+    .deduplicate((_, e) => e.action == "CREATED", "order-created")
+    .redirect("order-deduplicates-redirect")
+    .link((_, e) => e.key)(Serdes.Integer)
+    .build(Serdes.String, orderEventSerde)
+
+
   val builder = new CStreamsBuilder()
 
   builder
     .stream("orders")(Consumed.`with`(Serdes.String, orderEventSerde))
     .selectKey((_, value) => value.key.toString)
-    .constrain(constraint)
+    .constrain(deduplicateConstraint)
     .to("orders-output-topic")(Produced.`with`(Serdes.String, orderEventSerde))
 
   val topology: Topology = builder.build()

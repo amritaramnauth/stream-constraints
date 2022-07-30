@@ -37,4 +37,10 @@ case class PrerequisiteStores[K, V, L](constraint: Constraint[K, V, L]) {
     val storeSupplier = Stores.persistentKeyValueStore(name)
     Stores.keyValueStoreBuilder(storeSupplier, constraint.linkSerde, Serdes.longSerde)
   }
+
+   def deduplicatedStore(): StoreBuilder[KeyValueStore[L, Long]] = {
+    val name = "Deduplicated"
+    val storeSupplier = Stores.persistentKeyValueStore(name)
+    Stores.keyValueStoreBuilder(storeSupplier, constraint.linkSerde, Serdes.longSerde)
+  }
 }
