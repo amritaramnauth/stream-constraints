@@ -20,7 +20,7 @@ object OrderApplication extends App {
   val kafkaStreamsConfig: Properties = {
     val properties = new Properties()
     properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "order-application")
-    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "Amrita:9092")
+    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
     properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
     properties
   }
@@ -33,6 +33,7 @@ object OrderApplication extends App {
     .link((_, e) => e.key)(Serdes.Integer)
     .build(Serdes.String, orderEventSerde)
 
+  // TODO: add spec for deduplicate
   val deduplicate = new ConstraintBuilder[String, OrderEvent, Integer]
     .deduplicate(((_, e) => e.action == "CREATED", "order-created"))
     .redirect("deduplicate-orders-redirect")
