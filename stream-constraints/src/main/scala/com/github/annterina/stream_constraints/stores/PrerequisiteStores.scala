@@ -7,6 +7,7 @@ import org.apache.kafka.streams.state.{KeyValueStore, StoreBuilder, Stores, Valu
 import org.apache.kafka.streams.KeyValue
 import org.apache.kafka.streams.scala.serialization.Serdes
 
+
 import scalax.collection.GraphEdge.DiEdge
 import scalax.collection.mutable.Graph
 import java.time.Duration
@@ -42,5 +43,11 @@ case class PrerequisiteStores[K, V, L](constraint: Constraint[K, V, L]) {
     val name = "Deduplicate"
     val storeSupplier = Stores.persistentTimestampedKeyValueStore(name)
     Stores.timestampedKeyValueStoreBuilder(storeSupplier, constraint.keySerde, constraint.valueSerde)
+  }
+
+ def limitStore(): StoreBuilder[KeyValueStore[K, Int]] = {
+    val name = "Limit"
+    val storeSupplier = Stores.persistentKeyValueStore(name)
+    Stores.keyValueStoreBuilder(storeSupplier, constraint.keySerde, Serdes.intSerde)
   }
 }
