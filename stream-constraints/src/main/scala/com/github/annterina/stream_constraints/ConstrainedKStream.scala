@@ -13,6 +13,7 @@ import scalax.collection.edge.Implicits.any2XEdgeAssoc
 import scalax.collection.edge.LDiEdge
 import scalax.collection.mutable.Graph
 import scala.collection.mutable
+import com.github.annterina.stream_constraints.transformers.LimitTransformer
 
 class ConstrainedKStream[K, V, L](inner: KStream[K, V], builder: StreamsBuilder) {
 
@@ -41,6 +42,10 @@ class ConstrainedKStream[K, V, L](inner: KStream[K, V], builder: StreamsBuilder)
     val deduplicates = storeProvider.deduplicateStore()
     builder.addStateStore(deduplicates)
     constraintStateStores.add(deduplicates.name)
+
+    val limits = storeProvider.limitStore()
+    builder.addStateStore(limits)
+    constraintStateStores.add(limits.name)
 
     val constraintGraph = windowConstraintGraph(constraint)
     val graphTemplate = prerequisiteGraph(constraint)
@@ -72,7 +77,11 @@ class ConstrainedKStream[K, V, L](inner: KStream[K, V], builder: StreamsBuilder)
     
     val deduplicateConstrainedStream = redirect(deduplicateStream, constraint)
 
-    new ConstrainedKStream(deduplicateConstrainedStream, builder)
+    val limitStream = deduplicateConstrainedStream.transform(() => new LimitTransformer(constraint), constraintStateStores.toList:_*)
+    
+    val limitConstrainedStream = redirect(limitStream, constraint)
+
+    new ConstrainedKStream(limitConstrainedStream, builder)
   }
 
   def map[KR, VR](mapper: (K, V) => (KR, VR)): ConstrainedKStream[KR, VR, L] =
