@@ -6,7 +6,6 @@ import org.apache.kafka.streams.processor.ProcessorContext
 import org.apache.kafka.streams.state.{KeyValueStore, ValueAndTimestamp, KeyValueIterator}
 import org.apache.kafka.streams.KeyValue
 
-import org.slf4j.{Logger, LoggerFactory}
 import com.github.annterina.stream_constraints.constraints.limit.LimitConstraint
 
 class LimitTransformer[K, V, L](constraint: Constraint[K, V, L]) extends Transformer[K, V, KeyValue[Redirect[K], V]] {
@@ -19,8 +18,6 @@ class LimitTransformer[K, V, L](constraint: Constraint[K, V, L]) extends Transfo
       */
     var limitStore: KeyValueStore[K, Int] = _
 
-    var logger: Logger = LoggerFactory.getLogger(this.getClass)
-
     override def init(context: ProcessorContext): Unit = {
         this.context = context
         this.limitStore = context.getStateStore[KeyValueStore[K, Int]]("Limit")
@@ -32,7 +29,7 @@ class LimitTransformer[K, V, L](constraint: Constraint[K, V, L]) extends Transfo
       // forward as-is if limit constraint DOES NOT apply
       if (constraintsNotApplicable(constraint, key, value)) {
         context.forward(Redirect(key, redirect = false), value)
-        null
+        return null
       }
 
       // initialize limit
@@ -40,7 +37,7 @@ class LimitTransformer[K, V, L](constraint: Constraint[K, V, L]) extends Transfo
         limitStore.put(key, 1)
 
         context.forward(Redirect(key, redirect = false), value)
-        null
+        return null
 
       } else {
         // exists with limit

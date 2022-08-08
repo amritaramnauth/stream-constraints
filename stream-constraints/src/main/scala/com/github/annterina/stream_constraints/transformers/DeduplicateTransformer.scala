@@ -6,7 +6,6 @@ import org.apache.kafka.streams.processor.{PunctuationType, Punctuator, Processo
 import org.apache.kafka.streams.state.{TimestampedKeyValueStore, ValueAndTimestamp, KeyValueIterator}
 import org.apache.kafka.streams.KeyValue
 
-import org.slf4j.{Logger, LoggerFactory}
 import java.time.Duration
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -26,7 +25,6 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
     var maintainDurationMS: Long = _
     
     val CLEAR_INTERVAL_MILLIS: Long = TimeUnit.MINUTES.toMillis(1)
-    var logger: Logger = LoggerFactory.getLogger(this.getClass)
 
     override def init(context: ProcessorContext): Unit = {
         this.context = context
@@ -34,8 +32,6 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
 
         this.context.schedule(CLEAR_INTERVAL_MILLIS, PunctuationType.WALL_CLOCK_TIME, new Punctuator {
           override def punctuate(currentStreamTimeMs: Long): Unit = {
-             logger.info("calling deduplicate punctuate")
-             
              try {
               var iterator: KeyValueIterator[K, ValueAndTimestamp[V]] = deduplicateStore.all()
 
@@ -67,7 +63,6 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
       }
 
       if (value == null) {
-        logger.info("calling transform on null value")
         null
         
       } else {
@@ -85,18 +80,18 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
         if (isDuplicate(key, value)) {
           output = null;
           // update timestamp to prevent expiry
-          logger.info("found duplicate")
           deduplicateStore.put(key, ValueAndTimestamp.make(value, context.timestamp()));
           context.forward(Redirect(key, redirect = true), value)
 
         } else {
           output = KeyValue.pair(key, value)
-          logger.info("remembering new event")
           deduplicateStore.put(key, ValueAndTimestamp.make(value, context.timestamp()));
           context.forward(Redirect(key, redirect = false), value)
+
         }
         null
       }
+      null
     }
 
 

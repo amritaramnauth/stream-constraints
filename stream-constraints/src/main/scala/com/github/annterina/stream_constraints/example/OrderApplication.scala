@@ -1,19 +1,19 @@
 package com.github.annterina.stream_constraints.example
 
-import java.time.Duration
-import java.util.Properties
-
 import com.github.annterina.stream_constraints.CStreamsBuilder
 import com.github.annterina.stream_constraints.constraints.ConstraintBuilder
-import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.common.serialization.Serdes
-import org.apache.kafka.streams.kstream.{Consumed, Produced}
-import org.apache.kafka.streams.{KafkaStreams, StreamsConfig, Topology}
-import org.slf4j.{Logger, LoggerFactory}
-import java.util.concurrent.TimeUnit
 import com.github.annterina.stream_constraints.constraints.limit.LimitConstraintBuilder
 import com.github.annterina.stream_constraints.constraints.window.WindowConstraintBuilder
 import com.github.annterina.stream_constraints.constraints.deduplicate.DeduplicateConstraintBuilder
+import org.apache.kafka.clients.consumer.ConsumerConfig
+import org.apache.kafka.common.serialization.Serdes
+import org.apache.kafka.streams.{KafkaStreams, StreamsConfig, Topology}
+import org.apache.kafka.streams.kstream.{Consumed, Produced}
+
+import java.time.Duration
+import java.util.Properties
+import java.util.concurrent.TimeUnit
+import org.slf4j.{Logger, LoggerFactory}
 
 object OrderApplication extends App {
 
@@ -29,26 +29,18 @@ object OrderApplication extends App {
 
   val orderEventSerde = Serdes.serdeFrom(OrderEventSerde.serializer(), OrderEventSerde.deserializer())
 
-  // val constraint = new ConstraintBuilder[String, OrderEvent, Integer]
-  //   .prerequisite(((_, e) => e.action == "CREATED", "order-created"),
-  //     ((_, e) => e.action == "UPDATED", "order-updated"))
-  //   .link((_, e) => e.key)(Serdes.Integer)
-  //   .build(Serdes.String, orderEventSerde)
-
-  //TODO add test
   val deduplicateOrderCreatedConstraint = new DeduplicateConstraintBuilder[String, OrderEvent]
     .deduplicate((_, e) => e.action == "CREATED", "order-created")
-    .maintainDurationMs(TimeUnit.MINUTES.toMillis(0))  
+    .maintainDurationMs(TimeUnit.MINUTES.toMillis(1))  
 
-  //TODO add test
   val limit = new LimitConstraintBuilder[String, OrderEvent]
     .limit((_, e) => e.action == "UPDATED", "order-updated")
     .numberToLimit(3)
 
  val constraint = new ConstraintBuilder[String, OrderEvent, Integer]
-      // .limitConstraint(limit)
       .deduplicate(deduplicateOrderCreatedConstraint)
-      .redirect("deduplicate-orders-redirect")
+      .limitConstraint(limit)
+      .redirect("orders-redirect")
       .link((_, e) => e.key)(Serdes.Integer)
       .build(Serdes.String, orderEventSerde)
 
