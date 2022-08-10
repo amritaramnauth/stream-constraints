@@ -29,7 +29,7 @@ class OrderApplicationDeduplicateSpec extends AnyFunSpec with BeforeAndAfterEach
 
     val deduplicateOrderCreatedConstraint = new DeduplicateConstraintBuilder[String, OrderEvent]
     .deduplicate((_, e) => e.action == "CREATED", "order-created")
-    .maintainDurationMs(TimeUnit.MINUTES.toMillis(1)) 
+    .retentionPeriodMs(TimeUnit.MINUTES.toMillis(1)) 
 
     val constraints = new ConstraintBuilder[String, OrderEvent, Integer]
       .deduplicate(deduplicateOrderCreatedConstraint)

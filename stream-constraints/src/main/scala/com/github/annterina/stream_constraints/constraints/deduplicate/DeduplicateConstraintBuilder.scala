@@ -10,20 +10,20 @@ class DeduplicateConstraintBuilder[K, V] {
     * @param deduplicate
     * @return
     */
-  def deduplicate(deduplicate: ((K, V) => Boolean, String)): MaintainDurationStep[K, V] = {
-    new MaintainDurationStep[K, V](deduplicate)
+  def deduplicate(deduplicate: ((K, V) => Boolean, String)): RetentionPeriodStep[K, V] = {
+    new RetentionPeriodStep[K, V](deduplicate)
   }
 
-  final class MaintainDurationStep[K, V](deduplicate: ((K, V) => Boolean, String)) {
+  final class RetentionPeriodStep[K, V](deduplicate: ((K, V) => Boolean, String)) {
   
     /**
-      * The threshold for maintaining duplicates in buffer store
+      * The retention period for maintaining duplicates in buffer store in milliseconds
       *
-      * @param maintainDurationMs
-      * @return an deduplicate constraint instance
+      * @param retentionPeriodMs
+      * @return a deduplicate constraint instance
       */
-     def maintainDurationMs(maintainDurationMs: Long): DeduplicateConstraint[K, V] = {
-      new DeduplicateConstraint[K, V](deduplicate, maintainDurationMs)
+     def retentionPeriodMs(retentionPeriodMs: Long): DeduplicateConstraint[K, V] = {
+      new DeduplicateConstraint[K, V](deduplicate, retentionPeriodMs)
      }
   }
 

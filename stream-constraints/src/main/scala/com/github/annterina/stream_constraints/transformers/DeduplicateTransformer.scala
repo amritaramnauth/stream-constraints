@@ -22,7 +22,7 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
       *  Value: timestamp (event-time) when the event was seen for the first time
       */
     var deduplicateStore: TimestampedKeyValueStore[K, V] = _
-    var maintainDurationMS: Long = _
+    var retentionPeriodMs: Long = _
     
     val CLEAR_INTERVAL_MILLIS: Long = TimeUnit.MINUTES.toMillis(1)
 
@@ -40,7 +40,7 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
                 val eventTimestamp: Long = entry.value.timestamp()
 
                 // delete from store if timestamp expired
-                if((currentStreamTimeMs - eventTimestamp) > maintainDurationMS) {
+                if((currentStreamTimeMs - eventTimestamp) > retentionPeriodMs) {
                   deduplicateStore.delete(entry.key)
                   
                 }
@@ -69,12 +69,12 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
 
         val constraintDefinition = find(constraint, key, value)
 
-        if (constraintDefinition.isDefined && constraintDefinition.get.maintainDurationMS < 1) {
-          throw new IllegalArgumentException("maintain duration per event must be >= 1");
+        if (constraintDefinition.isDefined && constraintDefinition.get.retentionPeriodMs < 1) {
+          throw new IllegalArgumentException("retention period must be >= 1");
           null
         }
         
-        maintainDurationMS = constraintDefinition.get.maintainDurationMS
+        retentionPeriodMs = constraintDefinition.get.retentionPeriodMs
         
         var output: KeyValue[K, V] = KeyValue.pair(key, value)
         if (isDuplicate(key, value)) {

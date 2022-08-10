@@ -6,7 +6,7 @@ import java.util.function.BiFunction
   * 
   *
   * @param deduplicate the event type to deduplicate
-  * @param maintainDurationMS the threshold for maintaining duplicates in buffer store
+  * @param retentionPeriodMs the retention period for maintaining duplicates in buffer store in milliseconds
   */
 case class DeduplicateConstraint[K, V](deduplicate: ((K, V) => Boolean, String),
-                                        maintainDurationMS: Long) {}
+                                        retentionPeriodMs: Long) {}
