@@ -28,6 +28,12 @@ case class PrerequisiteStores[K, V, L](constraint: Constraint[K, V, L]) {
     Stores.keyValueStoreBuilder(storeSupplier, constraint.linkSerde, new TimestampedKeyValuesSerde[K, V](keyValueSerde))
   }
 
+  def bufferUntilPublishedStore(): StoreBuilder[TimestampedKeyValueStore[L, String]] = {
+    val name = "BufferUntilPublished"
+    val storeSupplier = Stores.persistentTimestampedKeyValueStore(name)
+    Stores.timestampedKeyValueStoreBuilder(storeSupplier, constraint.linkSerde, Serdes.stringSerde)
+  }
+
   def windowedStore(name: String, window: Duration): StoreBuilder[WindowStore[L, List[KeyValue[K, V]]]] = {
     val supplier = Stores.persistentWindowStore(name, window.multipliedBy(2), window, false)
     Stores.windowStoreBuilder(supplier, constraint.linkSerde, keyValuesSerde)

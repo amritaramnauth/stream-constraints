@@ -39,6 +39,13 @@ case class Constraint[K, V, L](prerequisites : Set[Prerequisite[K, V]],
   }
 }
 
-case class Prerequisite[K, V](before: ((K, V) => Boolean, String), after: ((K, V) => Boolean, String)) {}
+/**
+  * Causal constraint
+  *
+  * @param before the before or former event
+  * @param after the after or latter event
+  * @param publishAfterInterval the interval to publish if constraint cannot be enforced, default keeps event in the buffer indefinitely
+  */
+case class Prerequisite[K, V](before: ((K, V) => Boolean, String), after: ((K, V) => Boolean, String), publishAfterInterval: Long = 0) {}
 
 case class Terminal[K, V](terminal: ((K, V) => Boolean, String)) {}

@@ -14,6 +14,7 @@ import java.time.Duration
 import java.util.Properties
 import java.util.concurrent.TimeUnit
 import org.slf4j.{Logger, LoggerFactory}
+import com.github.annterina.stream_constraints.constraints.Prerequisite
 
 object OrderApplication extends App {
 
@@ -31,15 +32,19 @@ object OrderApplication extends App {
 
   val deduplicateOrderCreatedConstraint = new DeduplicateConstraintBuilder[String, OrderEvent]
     .deduplicate((_, e) => e.action == "CREATED", "order-created")
-    .maintainDurationMs(TimeUnit.MINUTES.toMillis(1))  
+    .retentionPeriodMs(TimeUnit.MINUTES.toMillis(1))  
 
   val limit = new LimitConstraintBuilder[String, OrderEvent]
     .limit((_, e) => e.action == "UPDATED", "order-updated")
     .numberToLimit(3)
 
- val constraint = new ConstraintBuilder[String, OrderEvent, Integer]
-      .deduplicate(deduplicateOrderCreatedConstraint)
-      .limitConstraint(limit)
+  val constraint = new ConstraintBuilder[String, OrderEvent, Integer]
+      // .deduplicate(deduplicateOrderCreatedConstraint)
+      // .limitConstraint(limit)
+       .prerequisite(((_, e) => e.action == "CREATED", "order-created"), 
+      ((_, e) => e.action == "UPDATED", "order-updated"), TimeUnit.SECONDS.toMillis(10))
+      .prerequisite(((_, e) => e.action == "CREATED", "order-created"), 
+      ((_, e) => e.action == "DELETED", "order-deleted"))
       .redirect("orders-redirect")
       .link((_, e) => e.key)(Serdes.Integer)
       .build(Serdes.String, orderEventSerde)

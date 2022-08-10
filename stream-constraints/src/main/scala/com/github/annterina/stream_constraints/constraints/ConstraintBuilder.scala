@@ -23,8 +23,8 @@ class ConstraintBuilder[K, V, L] {
   private var fullWindows: Boolean = false
 
 
-  def prerequisite(before: ((K, V) => Boolean, String), after: ((K, V) => Boolean, String)): ConstraintBuilder[K, V, L] = {
-    prerequisites.add(new Prerequisite[K, V](before, after))
+  def prerequisite(before: ((K, V) => Boolean, String), after: ((K, V) => Boolean, String), publishAfterInterval: Long = 0): ConstraintBuilder[K, V, L] = {
+    prerequisites.add(new Prerequisite[K, V](before, after, publishAfterInterval))
     constraintNames += before.swap
     constraintNames += after.swap
     this
