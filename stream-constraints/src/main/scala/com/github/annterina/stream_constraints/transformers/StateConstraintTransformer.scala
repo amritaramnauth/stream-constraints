@@ -37,7 +37,7 @@ class StateConstraintTransformer[K, V, L](constraint: Constraint[K, V, L], graph
     this.terminatedStore = context.getStateStore[KeyValueStore[L, Long]]("Terminated")
     this.bufferUntilPublishedStore = context.getStateStore[TimestampedKeyValueStore[L, String]]("BufferUntilPublished")
 
-    // set up punctuator to clear buffer only if publishAfterInterval has passed
+    // schedule punctuator to clear buffer only if publishAfterInterval has passed
     this.context.schedule(CLEAR_INTERVAL_MILLIS, PunctuationType.WALL_CLOCK_TIME, new Punctuator {
           override def punctuate(currentStreamTimeMs: Long): Unit = {
 
@@ -57,7 +57,7 @@ class StateConstraintTransformer[K, V, L](constraint: Constraint[K, V, L], graph
                     null
                   }
                   
-                  kv.foreach(e => context.forward(Redirect(e.value().key, redirect = false), e.value().value))
+                  kv.foreach(e => context.forward(Redirect(e.value().key, redirect = true), e.value().value))
                   
                   bufferUntilPublishedStore.delete(entry.key)
                   bufferStore(entry.value.value()).delete(entry.key)

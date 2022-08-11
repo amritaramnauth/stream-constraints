@@ -1,13 +1,15 @@
 name := "stream-constraints"
 organization := "com.github.annterina"
-version := "0.6.0"
+version := "0.7.1"
 
 scalaVersion := "2.13.4"
 
 resolvers ++= Seq(
   "confluent" at "https://packages.confluent.io/maven/"
-)
+  )
 
+assemblyJarName in assembly := "stream-constraints-0.7.1.jar"
+  
 val kafkaStreamsDependencies = Seq(
   "org.apache.kafka"  %      "kafka-clients"                 %   "2.7.0",
   "org.apache.kafka"  %      "kafka-streams"                 %   "2.7.0",
@@ -32,3 +34,4 @@ assemblyMergeStrategy in assembly := {
   case "module-info.class"           => MergeStrategy.discard
   case other                         => MergeStrategy.defaultMergeStrategy(other)
 }
+
