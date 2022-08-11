@@ -1,8 +1,10 @@
 name := "stream-constraints"
 organization := "com.github.annterina"
 version := "0.7.1"
-
 scalaVersion := "2.13.4"
+
+githubOwner := "amritaramnauth"
+githubRepository := "stream-constraints"
 
 resolvers ++= Seq(
   "confluent" at "https://packages.confluent.io/maven/"
