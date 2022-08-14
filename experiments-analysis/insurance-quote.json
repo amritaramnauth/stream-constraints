@@ -1,0 +1,39 @@
+{
+    "date": 1660391314505,
+    "insuranceQuoteRequestDto": {
+        "id": 82430962,
+        "date": 1660391314505,
+        "statusHistory": [
+            {
+                "date": 1660302527870,
+                "status": "REQUEST_SUBMITTED"
+            }
+        ],
+        "customerInfo": {
+            "customerId": "rgpp0wkpec",
+            "firstname": "Max",
+            "lastname": "Mustermann",
+            "contactAddress": {
+                "streetAddress": "Oberseestrasse 10",
+                "postalCode": "8640",
+                "city": "Rapperswil"
+            },
+            "billingAddress": {
+                "streetAddress": "Oberseestrasse 10",
+                "postalCode": "8640",
+                "city": "Rapperswil"
+            }
+        },
+        "insuranceOptions": {
+            "startDate": "2022-08-12",
+            "insuranceType": "Life Insurance",
+            "deductible": {
+                "amount": 1500,
+                "currency": "CHF"
+            }
+        },
+        "insuranceQuote": null,
+        "policyId": null
+    },
+    "$type": "InsuranceQuoteRequestEvent"
+}

@@ -1,0 +1,6 @@
+{
+    "date": 1660303845605,
+    "insuranceQuoteRequestId": 82530962,
+    "quoteAccepted": true,
+    "$type": "CustomerDecisionEvent"
+}

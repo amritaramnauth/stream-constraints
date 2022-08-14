@@ -3,6 +3,7 @@ package com.lakesidemutual.policymanagement.interfaces;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,12 @@ public class InsuranceQuoteRequestMessageConsumer {
 
 		CustomerInfoEntity customerInfo = insuranceQuoteRequestDto.getCustomerInfo().toDomainObject();
 		InsuranceOptionsEntity insuranceOptions = insuranceQuoteRequestDto.getInsuranceOptions().toDomainObject();
+
+		final Optional<InsuranceQuoteRequestAggregateRoot> insuranceQuoteRequestOpt = insuranceQuoteRequestRepository.findById(id);
+
+		if(insuranceQuoteRequestOpt.isPresent()) {
+			logger.info("Processing duplicate insurance quote request with id {}", insuranceQuoteRequestDto.getId());
+		}
 
 		InsuranceQuoteRequestAggregateRoot insuranceQuoteAggregateRoot = new InsuranceQuoteRequestAggregateRoot(id, date, status, customerInfo, insuranceOptions, null, null);
 		insuranceQuoteRequestRepository.save(insuranceQuoteAggregateRoot);
