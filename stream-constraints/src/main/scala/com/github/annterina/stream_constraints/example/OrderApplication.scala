@@ -42,7 +42,7 @@ object OrderApplication extends App {
       // .deduplicate(deduplicateOrderCreatedConstraint)
       // .limitConstraint(limit)
        .prerequisite(((_, e) => e.action == "CREATED", "order-created"), 
-      ((_, e) => e.action == "UPDATED", "order-updated"), TimeUnit.SECONDS.toMillis(10))
+      ((_, e) => e.action == "UPDATED", "order-updated"), TimeUnit.MINUTES.toMillis(1))
       .prerequisite(((_, e) => e.action == "CREATED", "order-created"), 
       ((_, e) => e.action == "DELETED", "order-deleted"))
       .redirect("orders-redirect")
