@@ -1,5 +1,6 @@
 {
     "date": 1660425972117,
     "insuranceQuoteRequestId": 51,
-    "policyId": "e9jpohpuu4"
+    "policyId": "e9jpohpuu4",
+    "$type": "PolicyCreatedEvent"
 }
