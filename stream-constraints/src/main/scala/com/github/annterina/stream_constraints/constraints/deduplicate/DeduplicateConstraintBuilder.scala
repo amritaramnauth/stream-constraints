@@ -1,6 +1,7 @@
 package com.github.annterina.stream_constraints.constraints.deduplicate
 
 import java.time.Duration
+import java.util.function.BiFunction
 
 class DeduplicateConstraintBuilder[K, V] {
 
@@ -22,8 +23,20 @@ class DeduplicateConstraintBuilder[K, V] {
       * @param retentionPeriodMs
       * @return a deduplicate constraint instance
       */
-     def retentionPeriodMs(retentionPeriodMs: Long): DeduplicateConstraint[K, V] = {
-      new DeduplicateConstraint[K, V](deduplicate, retentionPeriodMs)
+     def retentionPeriodMs(retentionPeriodMs: Long): ValueComparatorStep[K, V] = {
+      new ValueComparatorStep[K, V](deduplicate, retentionPeriodMs)
+     }
+  }
+
+  final class ValueComparatorStep[K, V](deduplicate: ((K, V) => Boolean, String), retentionPeriodMs: Long) {
+    /**
+      * 
+      * The comparator function to check for duplicates;
+      * @param comparator function to compare new value with previous
+      * @return
+      */
+     def valueComparator(valueComparator: BiFunction[V, V, Boolean]): DeduplicateConstraint[K, V] = {
+      new DeduplicateConstraint[K, V](deduplicate, retentionPeriodMs, valueComparator)
      }
   }
 

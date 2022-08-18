@@ -22,7 +22,10 @@ object StreamProducer extends App {
       new PolicyPublisher(kafkaProperties)
     } else if (ConfigUtils.mode == "insurance") {
       new InsuranceQuotePublisher(kafkaProperties)
-    } else {
+    } else if (ConfigUtils.mode == "test") {
+      new TestPublisher(kafkaProperties)
+    }
+    else {
       throw new RuntimeException(s"Unsupported app mode ${ConfigUtils.mode}.")
     }
   }

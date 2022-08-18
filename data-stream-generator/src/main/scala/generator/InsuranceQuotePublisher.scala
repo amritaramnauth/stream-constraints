@@ -23,31 +23,22 @@ class InsuranceQuotePublisher(kafkaProperties: Properties) extends Publisher {
 
   override def publish(): Unit = {
 
-    val source = Source.fromResource("data/insurance-quote-and-decision-events.txt")
+    val source = Source.fromResource("data/insurance-quote-and-policy-events-controlled.txt")
     for (line <- source.getLines()) {
 
-      val (_, insuranceQuoteId, event) = DataUtils.splitLine(line)
-
+      val (eventId, quoteOrPolicyId, event) = DataUtils.splitLine(line)
       val eventWithTime = event.replaceAll("\\b1621422717\\b", System.currentTimeMillis().toString)
-
+      val eventWithTimeAndId = eventWithTime.replaceAll("\\bPolicyManagementBackend\\b", eventId)
+      
       val record = 
         
       if (event.contains("InsuranceQuoteRequestEvent")) {
-       new ProducerRecord[String, String]("insurance-quote-request-events", insuranceQuoteId, eventWithTime)
+       new ProducerRecord[String, String]("insurance-events", quoteOrPolicyId, eventWithTime)
+      } else if (event.contains("UpdatePolicyEvent")) {
+        new ProducerRecord[String, String]("policy-events", quoteOrPolicyId, eventWithTimeAndId)
       }
-      //   if (event.contains("PolicyCreatedEvent")) {
-      //   new ProducerRecord[String, String]("policy-created-events", insuranceQuoteId, eventWithTime)
-
-      // if (event.contains("InsuranceQuoteResponseEvent")) {
-      //   new ProducerRecord[String, String]("insurance-quote-response-events", insuranceQuoteId, eventWithTime)
-      //  }
-      // } 
-      //  if (event.contains("CustomerDecisionEvent")) {
-      //   new ProducerRecord[String, String]("customer-decision-events", insuranceQuoteId, eventWithTime)
-      // }
-       else {
-        null
-        // new ProducerRecord[String, String]("insurance-quote-expired-events", insuranceQuoteId, eventWithTime)
+        else {
+          null
       }
 
       if (record != null) {
@@ -58,14 +49,14 @@ class InsuranceQuotePublisher(kafkaProperties: Properties) extends Publisher {
       Thread.sleep(1)
     }
 
-    Thread.sleep(2000)
+    // Thread.sleep(2000)
 
-    val (_, insuranceQuoteId, event) = DataUtils.splitLine(streamTimeAdvancement)
-    val eventWithTime = event.replaceAll("\\b1621422717\\b", System.currentTimeMillis().toString)
-    val record = new ProducerRecord[String, String]("policy-created-events", insuranceQuoteId, eventWithTime)
+    // val (_, insuranceQuoteId, event) = DataUtils.splitLine(streamTimeAdvancement)
+    // val eventWithTime = event.replaceAll("\\b1621422717\\b", System.currentTimeMillis().toString)
+    // val record = new ProducerRecord[String, String]("policy-created-events", insuranceQuoteId, eventWithTime)
 
-    producer.send(record, new CompareProducerCallback)
-    producer.flush()
+    // producer.send(record, new CompareProducerCallback)
+    // producer.flush()
 
     source.close()
   }

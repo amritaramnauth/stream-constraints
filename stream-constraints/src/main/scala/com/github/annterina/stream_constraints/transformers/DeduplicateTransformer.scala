@@ -12,10 +12,13 @@ import java.util.concurrent.TimeUnit
 import java.util.function.BiFunction
 import com.github.annterina.stream_constraints.constraints.deduplicate.DeduplicateConstraint
 
-class DeduplicateTransformer[K, V, L](constraint: Constraint[K, V, L], valueComparator: BiFunction[V, V, Boolean]) 
-extends Transformer[K, V, KeyValue[Redirect[K], V]] {
-    
-    var context: ProcessorContext = _
+import org.slf4j.{Logger, LoggerFactory}
+
+
+class DeduplicateTransformer[K, V, L](constraint: Constraint[K, V, L]) extends Transformer[K, V, KeyValue[Redirect[K], V]] {
+  
+  var context: ProcessorContext = _
+  val logger: Logger = LoggerFactory.getLogger(getClass)
 
     /**
       *  Key: eventId
@@ -23,6 +26,7 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
       */
     var deduplicateStore: TimestampedKeyValueStore[K, V] = _
     var retentionPeriodMs: Long = _
+    var comparator: BiFunction[V, V, Boolean] = _
     
     val CLEAR_INTERVAL_MILLIS: Long = TimeUnit.MINUTES.toMillis(1)
 
@@ -73,8 +77,9 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
           throw new IllegalArgumentException("retention period must be >= 1");
           null
         }
-        
+
         retentionPeriodMs = constraintDefinition.get.retentionPeriodMs
+        comparator = constraintDefinition.get.valueComparator
         
         var output: KeyValue[K, V] = KeyValue.pair(key, value)
         if (isDuplicate(key, value)) {
@@ -104,7 +109,7 @@ extends Transformer[K, V, KeyValue[Redirect[K], V]] {
       // handle already processed
       if(storedValue != null) {
         val previous: V = storedValue.value
-        isDuplicate = (valueComparator.apply(previous, value) == true)
+        isDuplicate = (comparator.apply(previous, value) == true);
       }
       return isDuplicate
     }

@@ -76,8 +76,7 @@ class ConstrainedKStream[K, V, L](inner: KStream[K, V], builder: StreamsBuilder)
 
     val prerequisiteConstrainedStream = redirect(prerequisiteStream, constraint)
 
-    val deduplicateStream = prerequisiteConstrainedStream.transform(() => new DeduplicateTransformer(constraint, 
-     ((value1: V, value2: V) => value1 == value2)), constraintStateStores.toList:_*)
+    val deduplicateStream = prerequisiteConstrainedStream.transform(() => new DeduplicateTransformer(constraint), constraintStateStores.toList:_*)
     
     val deduplicateConstrainedStream = redirect(deduplicateStream, constraint)
 

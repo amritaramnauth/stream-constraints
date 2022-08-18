@@ -52,6 +52,5 @@
     "_expandable": [
       "customer"
     ]
-  },
-  "$type": "PolicyUpdatedEvent"
+  }
 }

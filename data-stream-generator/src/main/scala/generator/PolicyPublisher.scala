@@ -23,7 +23,7 @@ class PolicyPublisher(kafkaProperties: Properties) extends Publisher {
 
   override def publish(): Unit = {
 
-    val source = Source.fromResource("data/events.txt")
+    val source = Source.fromResource("data/controlled-events.txt")
     for (line <- source.getLines()) {
 
       val (eventId, policyId, event) = DataUtils.splitLine(line)

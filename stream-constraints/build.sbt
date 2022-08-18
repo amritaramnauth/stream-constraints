@@ -1,6 +1,6 @@
 name := "stream-constraints"
 organization := "com.github.annterina"
-version := "0.7.0"
+version := "0.8.0"
 
 scalaVersion := "2.13.4"
 
@@ -8,7 +8,7 @@ resolvers ++= Seq(
   "confluent" at "https://packages.confluent.io/maven/"
   )
 
-assemblyJarName in assembly := "stream-constraints-0.7.0.jar"
+assemblyJarName in assembly := "stream-constraints-0.8.0.jar"
   
 val kafkaStreamsDependencies = Seq(
   "org.apache.kafka"  %      "kafka-clients"                 %   "2.7.0",

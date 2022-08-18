@@ -32,30 +32,29 @@ object OrderApplication extends App {
 
   val deduplicateOrderCreatedConstraint = new DeduplicateConstraintBuilder[String, OrderEvent]
     .deduplicate((_, e) => e.action == "CREATED", "order-created")
-    .retentionPeriodMs(TimeUnit.MINUTES.toMillis(1))  
+    .retentionPeriodMs(TimeUnit.MINUTES.toMillis(5))
+    .valueComparator((event1, event2) => event1.action == event2.action)  
 
   val limit = new LimitConstraintBuilder[String, OrderEvent]
     .limit((_, e) => e.action == "UPDATED", "order-updated")
     .numberToLimit(3)
 
   val constraint = new ConstraintBuilder[String, OrderEvent, Integer]
-      // .deduplicate(deduplicateOrderCreatedConstraint)
-      // .limitConstraint(limit)
-       .prerequisite(((_, e) => e.action == "CREATED", "order-created"), 
-      ((_, e) => e.action == "UPDATED", "order-updated"), TimeUnit.MINUTES.toMillis(1))
+      .deduplicate(deduplicateOrderCreatedConstraint)
+      .limitConstraint(limit)
       .prerequisite(((_, e) => e.action == "CREATED", "order-created"), 
-      ((_, e) => e.action == "DELETED", "order-deleted"))
-      .redirect("orders-redirect")
+      ((_, e) => e.action == "UPDATED", "order-updated"), TimeUnit.MINUTES.toMillis(2))
+      .redirect("order-events-redirect")
       .link((_, e) => e.key)(Serdes.Integer)
       .build(Serdes.String, orderEventSerde)
 
   val builder = new CStreamsBuilder()
 
   builder
-    .stream("orders")(Consumed.`with`(Serdes.String, orderEventSerde))
+    .stream("order-events")(Consumed.`with`(Serdes.String, orderEventSerde))
     .selectKey((_, value) => value.key.toString)
     .constrain(constraint)
-    .to("orders-output-topic")(Produced.`with`(Serdes.String, orderEventSerde))
+    .to("order-events-constrained")(Produced.`with`(Serdes.String, orderEventSerde))
 
   val topology: Topology = builder.build()
 
