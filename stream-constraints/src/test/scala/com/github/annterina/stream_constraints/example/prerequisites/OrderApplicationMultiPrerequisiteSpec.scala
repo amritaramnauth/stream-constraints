@@ -2,6 +2,7 @@ package com.github.annterina.stream_constraints.example.prerequisites
 
 import java.time.Instant
 import java.util.Properties
+import java.util.Date
 
 import com.github.annterina.stream_constraints.CStreamsBuilder
 import com.github.annterina.stream_constraints.constraints.ConstraintBuilder
@@ -63,7 +64,7 @@ class OrderApplicationMultiPrerequisiteSpec extends AnyFunSpec with BeforeAndAft
   describe("Order Application with multiple prerequisite constraints") {
 
     it("should emit the prerequisite event") {
-      inputTopic.pipeInput("123", OrderEvent(1, "CREATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
 
       val output = outputTopic.readKeyValue()
 
@@ -73,15 +74,15 @@ class OrderApplicationMultiPrerequisiteSpec extends AnyFunSpec with BeforeAndAft
     }
 
     it("should buffer an event when the prerequisite was not processed") {
-      inputTopic.pipeInput("123", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("123", OrderEvent(1, "DELETED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "DELETED"))
 
       assert(outputTopic.isEmpty)
     }
 
     it("should buffer an event when the prerequisite was not processed and publish not related event") {
-      inputTopic.pipeInput("456", OrderEvent(1, "DELETED"))
-      inputTopic.pipeInput("123", OrderEvent(2, "CREATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "DELETED"))
+      inputTopic.pipeInput("123", OrderEvent(2, new Date("1660931536"), "customer1", "CREATED"))
 
       val output = outputTopic.readKeyValue()
 
@@ -91,8 +92,8 @@ class OrderApplicationMultiPrerequisiteSpec extends AnyFunSpec with BeforeAndAft
     }
 
     it("should publish an event when the prerequisite is satisfied") {
-      inputTopic.pipeInput("456", OrderEvent(1, "DELETED"))
-      inputTopic.pipeInput("123", OrderEvent(1, "CREATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "DELETED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
 
       val output = outputTopic.readKeyValue()
 
@@ -110,9 +111,9 @@ class OrderApplicationMultiPrerequisiteSpec extends AnyFunSpec with BeforeAndAft
     it("should publish both events after receiving the prerequisite") {
       val timestamp = Instant.parse("2021-03-15T10:15:00.00Z")
 
-      inputTopic.pipeInput("123", OrderEvent(1, "UPDATED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "DELETED"), timestamp.plusSeconds(30))
-      inputTopic.pipeInput("789", OrderEvent(1, "CREATED"), timestamp.plusSeconds(60))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "DELETED"), timestamp.plusSeconds(30))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"), timestamp.plusSeconds(60))
 
       val firstOutput = outputTopic.readKeyValue()
 

@@ -2,6 +2,7 @@ package com.github.annterina.stream_constraints.example.window
 
 import java.time.{Duration, Instant}
 import java.util.Properties
+import java.util.Date
 
 import com.github.annterina.stream_constraints.CStreamsBuilder
 import com.github.annterina.stream_constraints.constraints.ConstraintBuilder
@@ -70,8 +71,8 @@ class OrderApplicationWindowSpec extends AnyFunSpec with BeforeAndAfterEach {
 
     it("should detect and swap events in the window despite the decreased timestamp") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp.plusSeconds(2))
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"), timestamp)
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp.plusSeconds(2))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp)
 
       val output = outputTopic.readKeyValue()
 
@@ -88,8 +89,8 @@ class OrderApplicationWindowSpec extends AnyFunSpec with BeforeAndAfterEach {
 
     it("should detect and swap events in the window") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(2))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(2))
 
       val output = outputTopic.readKeyValue()
 
@@ -106,9 +107,9 @@ class OrderApplicationWindowSpec extends AnyFunSpec with BeforeAndAfterEach {
 
     it("should detect multiple before and swap events in the window") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "CANCELLED"), timestamp.plusSeconds(1))
-      inputTopic.pipeInput("789", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(2))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp.plusSeconds(1))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(2))
 
       val output = outputTopic.readKeyValue()
 
@@ -131,9 +132,9 @@ class OrderApplicationWindowSpec extends AnyFunSpec with BeforeAndAfterEach {
 
     it("should emit the before event when the stream time advances") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "CREATED"), timestamp.plusSeconds(10))
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(14))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"), timestamp.plusSeconds(10))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(14))
 
       val output = outputTopic.readKeyValue()
 
@@ -150,9 +151,9 @@ class OrderApplicationWindowSpec extends AnyFunSpec with BeforeAndAfterEach {
 
     it("should publish before event that dropped out of window after swap") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "CANCELLED"), timestamp.plusSeconds(5))
-      inputTopic.pipeInput("789", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(12))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp.plusSeconds(5))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(12))
 
       val output = outputTopic.readKeyValue()
 
@@ -175,10 +176,10 @@ class OrderApplicationWindowSpec extends AnyFunSpec with BeforeAndAfterEach {
 
     it("should publish before event that dropped out of window before swap") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "CANCELLED"), timestamp.plusSeconds(10))
-      inputTopic.pipeInput("789", OrderEvent(1, "CANCELLED"), timestamp.plusSeconds(11))
-      inputTopic.pipeInput("000", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(12))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp.plusSeconds(10))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp.plusSeconds(11))
+      inputTopic.pipeInput("000", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(12))
 
       val output = outputTopic.readKeyValue()
 
@@ -207,9 +208,9 @@ class OrderApplicationWindowSpec extends AnyFunSpec with BeforeAndAfterEach {
 
     it("should ignore next after events after the first one") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(2))
-      inputTopic.pipeInput("789", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(5))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(2))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(5))
 
       val output = outputTopic.readKeyValue()
 
@@ -232,8 +233,8 @@ class OrderApplicationWindowSpec extends AnyFunSpec with BeforeAndAfterEach {
 
     it("should ignore action when window is not detected") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(11))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(11))
 
       val output = outputTopic.readKeyValue()
 

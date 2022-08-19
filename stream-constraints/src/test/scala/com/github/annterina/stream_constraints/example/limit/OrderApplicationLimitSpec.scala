@@ -1,6 +1,7 @@
 package com.github.annterina.stream_constraints.example.deduplicate
 
 import java.util.Properties
+import java.util.Date
 
 import com.github.annterina.stream_constraints.CStreamsBuilder
 import com.github.annterina.stream_constraints.constraints.ConstraintBuilder
@@ -72,12 +73,12 @@ class OrderApplicationLimitSpec extends AnyFunSpec with BeforeAndAfterEach {
   describe("Order Application with limit constraint") {
 
     it("should redirect exceeded events") {
-      inputTopic.pipeInput("123", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("123", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("123", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("123", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("123", OrderEvent(1, "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
 
 
       val firstOutput = outputTopic.readKeyValue()

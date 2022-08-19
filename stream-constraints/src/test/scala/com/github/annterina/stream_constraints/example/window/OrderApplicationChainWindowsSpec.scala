@@ -2,6 +2,7 @@ package com.github.annterina.stream_constraints.example.window
 
 import java.time.{Duration, Instant}
 import java.util.Properties
+import java.util.Date
 
 import com.github.annterina.stream_constraints.CStreamsBuilder
 import com.github.annterina.stream_constraints.constraints.ConstraintBuilder
@@ -75,11 +76,11 @@ class OrderApplicationChainWindowsSpec extends AnyFunSpec with BeforeAndAfterEac
 
     it("should detect and swap events in the window") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(2))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(2))
 
       // advances stream time
-      inputTopic.pipeInput("789", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(13))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(13))
 
       val output = outputTopic.readKeyValue()
 
@@ -96,9 +97,9 @@ class OrderApplicationChainWindowsSpec extends AnyFunSpec with BeforeAndAfterEac
 
     it("should detect swap events in two windows") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(3))
-      inputTopic.pipeInput("789", OrderEvent(1, "CREATED"), timestamp.plusSeconds(6))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(3))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"), timestamp.plusSeconds(6))
 
       val output = outputTopic.readKeyValue()
 
@@ -121,10 +122,10 @@ class OrderApplicationChainWindowsSpec extends AnyFunSpec with BeforeAndAfterEac
 
     it("should swap events in two windows with multiple events") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "CANCELLED"), timestamp.plusSeconds(1))
-      inputTopic.pipeInput("789", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(3))
-      inputTopic.pipeInput("000", OrderEvent(1, "CREATED"), timestamp.plusSeconds(6))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp.plusSeconds(1))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(3))
+      inputTopic.pipeInput("000", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"), timestamp.plusSeconds(6))
 
       val output = outputTopic.readKeyValue()
 
@@ -153,11 +154,11 @@ class OrderApplicationChainWindowsSpec extends AnyFunSpec with BeforeAndAfterEac
 
     it("should detect one of two possible windows") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(3))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(3))
 
       // stream time advances
-      inputTopic.pipeInput("789", OrderEvent(1, "NOT_RELATED"), timestamp.plusSeconds(16))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "NOT_RELATED"), timestamp.plusSeconds(16))
 
       outputTopic.readKeyValue()
 

@@ -2,6 +2,7 @@ package com.github.annterina.stream_constraints.example.window
 
 import java.time.{Duration, Instant}
 import java.util.Properties
+import java.util.Date
 
 import com.github.annterina.stream_constraints.CStreamsBuilder
 import com.github.annterina.stream_constraints.constraints.ConstraintBuilder
@@ -75,10 +76,10 @@ class OrderApplicationMultipleBeforeWindowSpec extends AnyFunSpec with BeforeAnd
 
     it("should swap events in the first full window") {
       val timestamp = Instant.parse("2021-03-21T10:15:00.00Z")
-      inputTopic.pipeInput("123", OrderEvent(1, "CANCELLED"), timestamp)
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"), timestamp.plusSeconds(2))
-      inputTopic.pipeInput("789", OrderEvent(1, "CREATED"), timestamp.plusSeconds(5))
-      inputTopic.pipeInput("000", OrderEvent(1, "CREATED"), timestamp.plusSeconds(9))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CANCELLED"), timestamp)
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"), timestamp.plusSeconds(2))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"), timestamp.plusSeconds(5))
+      inputTopic.pipeInput("000", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"), timestamp.plusSeconds(9))
 
       val output = outputTopic.readKeyValue()
 

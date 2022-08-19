@@ -1,6 +1,7 @@
 package com.github.annterina.stream_constraints.example.prerequisites
 
 import java.util.Properties
+import java.util.Date
 
 import com.github.annterina.stream_constraints.CStreamsBuilder
 import com.github.annterina.stream_constraints.constraints.ConstraintBuilder
@@ -60,7 +61,7 @@ class OrderApplicationSpec extends AnyFunSpec with BeforeAndAfterEach {
   describe("Order Application with single prerequisite constraint") {
 
     it("should emit the prerequisite event") {
-      inputTopic.pipeInput("123", OrderEvent(1, "CREATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
 
       val output = outputTopic.readKeyValue()
 
@@ -70,14 +71,14 @@ class OrderApplicationSpec extends AnyFunSpec with BeforeAndAfterEach {
     }
 
     it("should buffer an event when the prerequisite was not processed") {
-      inputTopic.pipeInput("123", OrderEvent(1, "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
 
       assert(outputTopic.isEmpty)
     }
 
     it("should buffer an event when the prerequisite was not processed and publish not related event") {
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("123", OrderEvent(2, "CREATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(2, new Date("1660931536"), "customer1", "CREATED"))
 
       val output = outputTopic.readKeyValue()
 
@@ -87,8 +88,8 @@ class OrderApplicationSpec extends AnyFunSpec with BeforeAndAfterEach {
     }
 
     it("should publish both events after receiving the prerequisite") {
-      inputTopic.pipeInput("123", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("456", OrderEvent(1, "CREATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
 
       val firstOutput = outputTopic.readKeyValue()
 
@@ -104,8 +105,8 @@ class OrderApplicationSpec extends AnyFunSpec with BeforeAndAfterEach {
     }
 
     it("should accept and publish multiple prerequisite events") {
-      inputTopic.pipeInput("123", OrderEvent(1, "CREATED"))
-      inputTopic.pipeInput("456", OrderEvent(1, "CREATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
 
       val firstOutput = outputTopic.readKeyValue()
 
@@ -121,9 +122,9 @@ class OrderApplicationSpec extends AnyFunSpec with BeforeAndAfterEach {
     }
 
     it("should publish prerequisite event and multiple later events") {
-      inputTopic.pipeInput("123", OrderEvent(1, "CREATED"))
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("789", OrderEvent(1, "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
 
       val firstOutput = outputTopic.readKeyValue()
 
@@ -145,9 +146,9 @@ class OrderApplicationSpec extends AnyFunSpec with BeforeAndAfterEach {
     }
 
     it("should publish prerequisite event and multiple buffered events") {
-      inputTopic.pipeInput("456", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("789", OrderEvent(1, "UPDATED"))
-      inputTopic.pipeInput("123", OrderEvent(1, "CREATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "UPDATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
 
       val firstOutput = outputTopic.readKeyValue()
 

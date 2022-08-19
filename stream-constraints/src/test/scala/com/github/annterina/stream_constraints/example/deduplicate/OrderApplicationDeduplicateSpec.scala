@@ -12,6 +12,8 @@ import org.apache.kafka.streams.{StreamsConfig, TestInputTopic, TestOutputTopic,
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
 import java.util.concurrent.TimeUnit
+import java.util.Date
+
 
 class OrderApplicationDeduplicateSpec extends AnyFunSpec with BeforeAndAfterEach {
 
@@ -19,7 +21,7 @@ class OrderApplicationDeduplicateSpec extends AnyFunSpec with BeforeAndAfterEach
   private var inputTopic: TestInputTopic[String, OrderEvent] = _
   private var outputTopic: TestOutputTopic[String, OrderEvent] = _
   private var redirectTopic: TestOutputTopic[String, OrderEvent] = _
-
+  
   override def beforeEach(): Unit = {
     val config = new Properties()
     config.put(StreamsConfig.APPLICATION_ID_CONFIG, "order-application-test")
@@ -29,7 +31,8 @@ class OrderApplicationDeduplicateSpec extends AnyFunSpec with BeforeAndAfterEach
 
     val deduplicateOrderCreatedConstraint = new DeduplicateConstraintBuilder[String, OrderEvent]
     .deduplicate((_, e) => e.action == "CREATED", "order-created")
-    .retentionPeriodMs(TimeUnit.MINUTES.toMillis(1)) 
+    .retentionPeriodMs(TimeUnit.MINUTES.toMillis(1))
+    .valueComparator((event1, event2) => event1.action == event2.action) 
 
     val constraints = new ConstraintBuilder[String, OrderEvent, Integer]
       .deduplicate(deduplicateOrderCreatedConstraint)
@@ -73,9 +76,9 @@ class OrderApplicationDeduplicateSpec extends AnyFunSpec with BeforeAndAfterEach
   describe("Order Application with deduplicate constraint") {
 
     it("should publish all unique events") {
-      inputTopic.pipeInput("123", OrderEvent(1, "CREATED"))
-      inputTopic.pipeInput("456", OrderEvent(1, "CREATED"))
-      inputTopic.pipeInput("789", OrderEvent(1, "CREATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
 
       val firstOutput = outputTopic.readKeyValue()
 
@@ -102,11 +105,11 @@ class OrderApplicationDeduplicateSpec extends AnyFunSpec with BeforeAndAfterEach
 
 
     it("should redirect deduplicate events") {
-      inputTopic.pipeInput("123", OrderEvent(1, "CREATED"))
-      inputTopic.pipeInput("456", OrderEvent(1, "CREATED"))
-      inputTopic.pipeInput("456", OrderEvent(1, "CREATED"))
-      inputTopic.pipeInput("789", OrderEvent(1, "CREATED"))
-      inputTopic.pipeInput("123", OrderEvent(1, "CREATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
+      inputTopic.pipeInput("456", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
+      inputTopic.pipeInput("789", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
+      inputTopic.pipeInput("123", OrderEvent(1, new Date("1660931536"), "customer1", "CREATED"))
 
 
       val firstOutput = outputTopic.readKeyValue()
