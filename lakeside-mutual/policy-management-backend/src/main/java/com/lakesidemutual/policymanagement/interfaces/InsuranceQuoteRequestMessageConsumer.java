@@ -1,6 +1,9 @@
 package com.lakesidemutual.policymanagement.interfaces;
 
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.lakesidemutual.policymanagement.domain.MetricEvent;
 import com.lakesidemutual.policymanagement.domain.insurancequoterequest.CustomerInfoEntity;
 import com.lakesidemutual.policymanagement.domain.insurancequoterequest.InsuranceOptionsEntity;
 import com.lakesidemutual.policymanagement.domain.insurancequoterequest.InsuranceQuoteRequestAggregateRoot;
 import com.lakesidemutual.policymanagement.domain.insurancequoterequest.InsuranceQuoteRequestEvent;
 import com.lakesidemutual.policymanagement.domain.insurancequoterequest.RequestStatus;
+import com.lakesidemutual.policymanagement.infrastructure.EventMetricMessageProducer;
 import com.lakesidemutual.policymanagement.infrastructure.InsuranceQuoteRequestRepository;
 import com.lakesidemutual.policymanagement.interfaces.dtos.insurancequoterequest.InsuranceQuoteRequestDto;
 import com.lakesidemutual.policymanagement.interfaces.dtos.insurancequoterequest.RequestStatusChangeDto;
@@ -31,6 +36,9 @@ public class InsuranceQuoteRequestMessageConsumer {
 
 	@Autowired
 	private InsuranceQuoteRequestRepository insuranceQuoteRequestRepository;
+	
+	@Autowired
+	private EventMetricMessageProducer eventMetricMessageProducer;
 
 	@KafkaListener(topics = "${insuranceQuoteRequestEvent.topicName}",
 			groupId = "${spring.kafka.consumer.group-id}",
@@ -47,11 +55,9 @@ public class InsuranceQuoteRequestMessageConsumer {
 		CustomerInfoEntity customerInfo = insuranceQuoteRequestDto.getCustomerInfo().toDomainObject();
 		InsuranceOptionsEntity insuranceOptions = insuranceQuoteRequestDto.getInsuranceOptions().toDomainObject();
 
-		final Optional<InsuranceQuoteRequestAggregateRoot> insuranceQuoteRequestOpt = insuranceQuoteRequestRepository.findById(id);
-
-		if(insuranceQuoteRequestOpt.isPresent()) {
-			logger.info("Processing duplicate insurance quote request with id {}", insuranceQuoteRequestDto.getId());
-		}
+		// publish event metric event
+		MetricEvent metricEvent = new MetricEvent(id.toString(), date, new Date(System.currentTimeMillis()), "InsuranceQuoteRequestEvent");
+		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
 
 		InsuranceQuoteRequestAggregateRoot insuranceQuoteAggregateRoot = new InsuranceQuoteRequestAggregateRoot(id, date, status, customerInfo, insuranceOptions, null, null);
 		insuranceQuoteRequestRepository.save(insuranceQuoteAggregateRoot);
