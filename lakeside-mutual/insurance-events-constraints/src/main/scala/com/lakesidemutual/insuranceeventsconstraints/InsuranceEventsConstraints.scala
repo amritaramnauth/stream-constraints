@@ -17,7 +17,7 @@ object InsuranceEventsConstraints extends App {
   val kafkaStreamsConfig: Properties = {
     val properties = new Properties()
     properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "insurance-events-constraints-application")
-    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "Amrita:9092")
+    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
     properties.put(StreamsConfig.METRICS_RECORDING_LEVEL_CONFIG, "DEBUG")
     properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
     properties
@@ -33,16 +33,17 @@ object InsuranceEventsConstraints extends App {
  
   val constraint = new ConstraintBuilder[String, InsuranceQuoteRequestEvent, java.lang.Long]
     .deduplicate(deduplicateConstraint)
-    .redirect("insurance-events-redirect")
+    .redirect("insurance-quote-events-redirect")
     .link((_, e) => e.getInsuranceQuoteRequestDto().getId())(Serdes.Long)
     .build(Serdes.String, insuranceQuoteEventSerde)
 
   val builder = new CStreamsBuilder()
 
   builder
-    .stream("insurance-events")(Consumed.`with`(Serdes.String, insuranceQuoteEventSerde))
+    .stream("insurance-quote-events")(Consumed.`with`(Serdes.String, insuranceQuoteEventSerde))
     .constrain(constraint)
-    .to("insurance-events-constrained")(Produced.`with`(Serdes.String, insuranceQuoteEventSerde))
+    .to("insurance-quote-request-events")(Produced.`with`(Serdes.String, insuranceQuoteEventSerde))
+    // .to("insurance-quote-constrained")(Produced.`with`(Serdes.String, insuranceQuoteEventSerde))
 
   val topology: Topology = builder.build()
 
