@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.lakesidemutual.policymanagement.domain.MetricEvent;
 import com.lakesidemutual.policymanagement.domain.customer.CustomerId;
 import com.lakesidemutual.policymanagement.domain.insurancequoterequest.CustomerDecisionEvent;
 import com.lakesidemutual.policymanagement.domain.insurancequoterequest.CustomerInfoEntity;
@@ -29,6 +30,7 @@ import com.lakesidemutual.policymanagement.domain.policy.PolicyType;
 import com.lakesidemutual.policymanagement.domain.policy.UpdatePolicyEvent;
 import com.lakesidemutual.policymanagement.infrastructure.CustomerCoreRemoteProxy;
 import com.lakesidemutual.policymanagement.infrastructure.CustomerSelfServiceMessageProducer;
+import com.lakesidemutual.policymanagement.infrastructure.EventMetricMessageProducer;
 import com.lakesidemutual.policymanagement.infrastructure.InsuranceQuoteRequestRepository;
 import com.lakesidemutual.policymanagement.infrastructure.PolicyRepository;
 import com.lakesidemutual.policymanagement.infrastructure.RiskManagementMessageProducer;
@@ -55,6 +57,9 @@ public class CustomerDecisionMessageConsumer {
 
 	@Autowired
 	private RiskManagementMessageProducer riskManagementMessageProducer;
+
+	@Autowired
+	private EventMetricMessageProducer eventMetricMessageProducer;
 
 	@Autowired
 	private CustomerCoreRemoteProxy customerCoreRemoteProxy;
@@ -129,6 +134,10 @@ public class CustomerDecisionMessageConsumer {
 			logger.info("The insurance quote for request {} has been rejected", insuranceQuoteRequest.getId());
 			insuranceQuoteRequest.rejectQuote(decisionDate);
 		}
+
+		// publish event metric event
+		MetricEvent metricEvent = new MetricEvent(id.toString(), decisionDate, new Date(System.currentTimeMillis()), "CustomerDecisionEvent");
+		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
 
 		insuranceQuoteRequestRepository.save(insuranceQuoteRequest);
 	}

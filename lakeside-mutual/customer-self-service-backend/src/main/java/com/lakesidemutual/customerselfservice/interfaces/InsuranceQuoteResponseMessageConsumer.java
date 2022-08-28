@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.lakesidemutual.customerselfservice.domain.MetricEvent;
 import com.lakesidemutual.customerselfservice.domain.insurancequoterequest.InsuranceQuoteEntity;
 import com.lakesidemutual.customerselfservice.domain.insurancequoterequest.InsuranceQuoteRequestAggregateRoot;
 import com.lakesidemutual.customerselfservice.domain.insurancequoterequest.InsuranceQuoteResponseEvent;
 import com.lakesidemutual.customerselfservice.domain.insurancequoterequest.MoneyAmount;
+import com.lakesidemutual.customerselfservice.infrastructure.EventMetricMessageProducer;
 import com.lakesidemutual.customerselfservice.infrastructure.InsuranceQuoteRequestRepository;
 
 /**
@@ -26,6 +28,9 @@ public class InsuranceQuoteResponseMessageConsumer {
 
 	@Autowired
 	private InsuranceQuoteRequestRepository insuranceQuoteRequestRepository;
+
+	@Autowired
+	private EventMetricMessageProducer eventMetricMessageProducer;
 
 	@KafkaListener(topics = "${insuranceQuoteResponseEvent.topicName}",
 			groupId = "${spring.kafka.consumer.group-id}",
@@ -55,6 +60,9 @@ public class InsuranceQuoteResponseMessageConsumer {
 			insuranceQuoteRequest.rejectRequest(date);
 		}
 
+		MetricEvent metricEvent = new MetricEvent(id.toString(), date, new Date(System.currentTimeMillis()), "InsuranceQuoteResponseEvent");
+		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
+		
 		insuranceQuoteRequestRepository.save(insuranceQuoteRequest);
 	}
 }

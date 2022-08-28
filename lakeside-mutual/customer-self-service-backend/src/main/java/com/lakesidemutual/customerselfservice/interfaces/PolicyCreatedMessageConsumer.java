@@ -1,5 +1,6 @@
 package com.lakesidemutual.customerselfservice.interfaces;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -8,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.lakesidemutual.customerselfservice.domain.MetricEvent;
 import com.lakesidemutual.customerselfservice.domain.insurancequoterequest.InsuranceQuoteRequestAggregateRoot;
 import com.lakesidemutual.customerselfservice.domain.insurancequoterequest.PolicyCreatedEvent;
+import com.lakesidemutual.customerselfservice.infrastructure.EventMetricMessageProducer;
 import com.lakesidemutual.customerselfservice.infrastructure.InsuranceQuoteRequestRepository;
 
 /**
@@ -24,6 +27,9 @@ public class PolicyCreatedMessageConsumer {
 	@Autowired
 	private InsuranceQuoteRequestRepository insuranceQuoteRequestRepository;
 
+	@Autowired
+	private EventMetricMessageProducer eventMetricMessageProducer;
+
 	@KafkaListener(topics = "${policyCreatedEvent.topicName}",
 			groupId = "${spring.kafka.consumer.group-id}",
 			containerFactory = "policyCreatedListenerFactory")
@@ -37,6 +43,10 @@ public class PolicyCreatedMessageConsumer {
 			logger.error("Unable to process a policy created event with an invalid insurance quote request id.");
 			return;
 		}
+
+		// publish event metric event
+		MetricEvent metricEvent = new MetricEvent(policyCreatedEvent.getPolicyId().toString(), policyCreatedEvent.getDate(), new Date(System.currentTimeMillis()), "PolicyCreatedEvent");
+		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
 
 		final InsuranceQuoteRequestAggregateRoot insuranceQuoteRequest = insuranceQuoteRequestOpt.get();
 		insuranceQuoteRequest.finalizeQuote(policyCreatedEvent.getPolicyId(), policyCreatedEvent.getDate());
