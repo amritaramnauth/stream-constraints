@@ -54,15 +54,16 @@ function consumeEvents(dataManager) {
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
         handleMessage(dataManager, message)
-        
+
+        const event = JSON.parse(message.value)
         // send event metric
         // metric  payload = {eventId, producedAt, consumedAt, eventType}
-        if (message.kind === 'UpdatePolicyEvent') {
-          const metric = {eventId:  message.policy.policyId, producedAt: message.date, consumedAt: Date.now(), eventType: "UpdatePolicyEvent"}
-          await producer.send({topic: 'metric-events', messages: [{key: message.policy.policyId, value: JSON.stringify(metric)}]})
+        if (event.kind === 'UpdatePolicyEvent') {
+          const metric = { eventId: event.policy.policyId, producedAt: event.date, consumedAt: Date.now(), eventType: "UpdatePolicyEvent" }
+          await producer.send({ topic: 'metric-events', messages: [{ key: event.policy.policyId, value: JSON.stringify(metric) }] })
         } else {
-          const metric = {eventId:  message.policyId, producedAt: message.date, consumedAt: Date.now(), eventType: "DeletePolicyEvent"}
-          await producer.send({topic: 'metric-events', messages: [{key: message.policyId, value: JSON.stringify(metric)}]})
+          const metric = { eventId: event.policyId, producedAt: event.date, consumedAt: Date.now(), eventType: "DeletePolicyEvent" }
+          await producer.send({ topic: 'metric-events', messages: [{ key: event.policyId, value: JSON.stringify(metric) }] })
         }
       },
     })
