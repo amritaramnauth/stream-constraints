@@ -38,6 +38,9 @@ public class InsuranceQuoteResponseMessageConsumer {
 	public void receiveInsuranceQuoteResponse(final InsuranceQuoteResponseEvent insuranceQuoteResponseEvent) {
 		logger.info("A new InsuranceQuoteResponseEvent has been received.");
 
+		MetricEvent metricEvent = new MetricEvent(insuranceQuoteResponseEvent.getInsuranceQuoteRequestId().toString(), insuranceQuoteResponseEvent.getDate(), new Date(System.currentTimeMillis()), "InsuranceQuoteResponseEvent");
+		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
+
 		final Long id = insuranceQuoteResponseEvent.getInsuranceQuoteRequestId();
 		final Optional<InsuranceQuoteRequestAggregateRoot> insuranceQuoteRequestOpt = insuranceQuoteRequestRepository.findById(id);
 
@@ -60,9 +63,6 @@ public class InsuranceQuoteResponseMessageConsumer {
 			insuranceQuoteRequest.rejectRequest(date);
 		}
 
-		MetricEvent metricEvent = new MetricEvent(id.toString(), date, new Date(System.currentTimeMillis()), "InsuranceQuoteResponseEvent");
-		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
-		
 		insuranceQuoteRequestRepository.save(insuranceQuoteRequest);
 	}
 }

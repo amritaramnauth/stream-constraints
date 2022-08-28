@@ -70,6 +70,10 @@ public class CustomerDecisionMessageConsumer {
 	public void receiveCustomerDecision(final CustomerDecisionEvent customerDecisionEvent) throws InterruptedException {
 		logger.info("A new CustomerDecisionEvent has been received.");
 
+		// publish event metric event
+		MetricEvent metricEvent = new MetricEvent(customerDecisionEvent.getInsuranceQuoteRequestId().toString(), customerDecisionEvent.getDate(), new Date(System.currentTimeMillis()), "CustomerDecisionEvent");
+		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
+
 		final Long id = customerDecisionEvent.getInsuranceQuoteRequestId();
 		final Optional<InsuranceQuoteRequestAggregateRoot> insuranceQuoteRequestOpt = insuranceQuoteRequestRepository.findById(id);
 
@@ -134,10 +138,6 @@ public class CustomerDecisionMessageConsumer {
 			logger.info("The insurance quote for request {} has been rejected", insuranceQuoteRequest.getId());
 			insuranceQuoteRequest.rejectQuote(decisionDate);
 		}
-
-		// publish event metric event
-		MetricEvent metricEvent = new MetricEvent(id.toString(), decisionDate, new Date(System.currentTimeMillis()), "CustomerDecisionEvent");
-		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
 
 		insuranceQuoteRequestRepository.save(insuranceQuoteRequest);
 	}

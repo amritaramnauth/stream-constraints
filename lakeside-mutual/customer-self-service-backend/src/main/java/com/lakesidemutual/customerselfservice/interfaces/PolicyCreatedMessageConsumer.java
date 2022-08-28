@@ -36,6 +36,10 @@ public class PolicyCreatedMessageConsumer {
 	public void receivePolicyCreatedEvent(final PolicyCreatedEvent policyCreatedEvent) {
 		logger.info("A new PolicyCreatedEvent has been received.");
 		
+		// publish event metric event
+		MetricEvent metricEvent = new MetricEvent(policyCreatedEvent.getPolicyId().toString(), policyCreatedEvent.getDate(), new Date(System.currentTimeMillis()), "PolicyCreatedEvent");
+		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
+		
 		final Long id = policyCreatedEvent.getInsuranceQuoteRequestId();
 		final Optional<InsuranceQuoteRequestAggregateRoot> insuranceQuoteRequestOpt = insuranceQuoteRequestRepository.findById(id);
 
@@ -44,9 +48,7 @@ public class PolicyCreatedMessageConsumer {
 			return;
 		}
 
-		// publish event metric event
-		MetricEvent metricEvent = new MetricEvent(policyCreatedEvent.getPolicyId().toString(), policyCreatedEvent.getDate(), new Date(System.currentTimeMillis()), "PolicyCreatedEvent");
-		eventMetricMessageProducer.sendEventMetricEvent(metricEvent);
+		
 
 		final InsuranceQuoteRequestAggregateRoot insuranceQuoteRequest = insuranceQuoteRequestOpt.get();
 		insuranceQuoteRequest.finalizeQuote(policyCreatedEvent.getPolicyId(), policyCreatedEvent.getDate());
