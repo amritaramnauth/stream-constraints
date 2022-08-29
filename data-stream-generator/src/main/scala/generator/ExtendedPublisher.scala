@@ -35,7 +35,7 @@ class ExtendedPublisher(kafkaProperties: Properties) extends Publisher {
         // new ProducerRecord[String, String]("insurance-quote-events", insuranceQuoteId, eventWithProducerTime)
       } else {
         new ProducerRecord[String, String]("policy-events", insuranceQuoteId, eventWithProducerTime)
-        // new ProducerRecord[String, String]("constraint-policy-events", insuranceQuoteId, eventWithProducerTime)
+        // new ProducerRecord[String, String]("policy-events-constrained", insuranceQuoteId, eventWithProducerTime)
       }
 
       producer.send(record, new CompareProducerCallback)

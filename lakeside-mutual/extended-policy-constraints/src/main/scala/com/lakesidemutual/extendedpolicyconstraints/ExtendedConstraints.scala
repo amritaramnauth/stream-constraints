@@ -49,7 +49,7 @@ object ExtendedPolicyConstraints extends App {
   val builder = new CStreamsBuilder()
 
   builder
-    .stream("constraint-policy-events")(Consumed.`with`(Serdes.String, policyEventSerde))
+    .stream("policy-events-constrained")(Consumed.`with`(Serdes.String, policyEventSerde))
     .constrain(constraint)
     .to("policy-events")(Produced.`with`(Serdes.String, policyEventSerde))
 
