@@ -6,9 +6,10 @@ import org.slf4j.LoggerFactory
 
 /**
  * Produces a stream on Kafka
- * Two possible configurations:
+ * Three possible configurations:
  * - policy
  * - insurance
+ * - test
  */
 object StreamProducer extends App {
   val logger = LoggerFactory.getLogger(getClass)
@@ -22,6 +23,8 @@ object StreamProducer extends App {
       new PolicyPublisher(kafkaProperties)
     } else if (ConfigUtils.mode == "insurance") {
       new InsuranceQuotePublisher(kafkaProperties)
+    } else if (ConfigUtils.mode == "extended") {
+      new ExtendedPublisher(kafkaProperties)
     } else if (ConfigUtils.mode == "test") {
       new TestPublisher(kafkaProperties)
     }

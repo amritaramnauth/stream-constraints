@@ -23,7 +23,7 @@ class PolicyPublisher(kafkaProperties: Properties) extends Publisher {
 
   override def publish(): Unit = {
 
-    val source = Source.fromResource("data/controlled-events.txt")
+    val source = Source.fromResource("data/events1.txt")
     for (line <- source.getLines()) {
 
       val (eventId, policyId, event) = DataUtils.splitLine(line)
@@ -41,12 +41,12 @@ class PolicyPublisher(kafkaProperties: Properties) extends Publisher {
 
     Thread.sleep(1000)
 
-    val (_, policyId, event) = DataUtils.splitLine(streamTimeAdvancement)
-    val eventWithTime = event.replaceAll("\\b1621422717\\b", System.currentTimeMillis().toString)
-    val record = new ProducerRecord[String, String]("policy-events", policyId, eventWithTime)
+    // val (_, policyId, event) = DataUtils.splitLine(streamTimeAdvancement)
+    // val eventWithTime = event.replaceAll("\\b1621422717\\b", System.currentTimeMillis().toString)
+    // val record = new ProducerRecord[String, String]("policy-events", policyId, eventWithTime)
 
-    producer.send(record, new CompareProducerCallback)
-    producer.flush()
+    // producer.send(record, new CompareProducerCallback)
+    // producer.flush()
 
     source.close()
   }
