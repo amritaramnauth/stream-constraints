@@ -19,7 +19,7 @@ object ExtendedPolicyConstraints extends App {
   val kafkaStreamsConfig: Properties = {
     val properties = new Properties()
     properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "extended-constraints-application")
-    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "Amrita:9092")
+    properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
     properties.put(StreamsConfig.METRICS_RECORDING_LEVEL_CONFIG, "DEBUG")
     properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
     properties
@@ -34,14 +34,14 @@ object ExtendedPolicyConstraints extends App {
 
   val limit = new LimitConstraintBuilder[String, PolicyDomainEvent]
     .limit((_, e) => e.`type` == "UpdatePolicyEvent", "policy-updated")
-    .numberToLimit(2)
+    .numberToLimit(3)
 
 
   val constraint = new ConstraintBuilder[String, PolicyDomainEvent, String]
     .deduplicate(deduplicateConstraint)
     .limitConstraint(limit)
     .prerequisite(((_, e) => e.`type` == "UpdatePolicyEvent", "policy-updated"), 
-    ((_, e) => e.`type` == "DeletePolicyEvent", "policy-deleted"), TimeUnit.MINUTES.toMillis(1))
+    ((_, e) => e.`type` == "DeletePolicyEvent", "policy-deleted"), TimeUnit.MINUTES.toMillis(2))
     .redirect("policy-events-redirect")
     .link((_, e) => e.policyId())(Serdes.String)
     .build(Serdes.String, policyEventSerde)
@@ -49,9 +49,9 @@ object ExtendedPolicyConstraints extends App {
   val builder = new CStreamsBuilder()
 
   builder
-    .stream("policy-events")(Consumed.`with`(Serdes.String, policyEventSerde))
+    .stream("constraint-policy-events")(Consumed.`with`(Serdes.String, policyEventSerde))
     .constrain(constraint)
-    .to("policy-events-constrained")(Produced.`with`(Serdes.String, policyEventSerde))
+    .to("policy-events")(Produced.`with`(Serdes.String, policyEventSerde))
 
   val topology: Topology = builder.build()
 
