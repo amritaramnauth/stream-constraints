@@ -21,7 +21,8 @@ class ExtendedPublisher(kafkaProperties: Properties) extends Publisher {
 
   override def publish(): Unit = {
 
-    val source = Source.fromResource("data/extended-events-1000.txt")
+    val source = Source.fromResource("data/demo.txt")
+    // val source = Source.fromResource("data/extended-events-1000.txt")
     // val source = Source.fromResource("data/extended-events-1500.txt")
     // val source = Source.fromResource("data/extended-events-2000.txt")
     // val source = Source.fromResource("data/extended-events-2500.txt")
@@ -31,11 +32,11 @@ class ExtendedPublisher(kafkaProperties: Properties) extends Publisher {
       val eventWithProducerTime = event.replaceAll("\\b1661732324\\b", System.currentTimeMillis().toString)
       
       val record = if (event.contains("InsuranceQuoteRequestEvent")) {
-        new ProducerRecord[String, String]("insurance-quote-request-events", insuranceQuoteId, eventWithProducerTime)
-        // new ProducerRecord[String, String]("insurance-quote-events", insuranceQuoteId, eventWithProducerTime)
+        // new ProducerRecord[String, String]("insurance-quote-request-events", insuranceQuoteId, eventWithProducerTime)
+        new ProducerRecord[String, String]("insurance-quote-events", insuranceQuoteId, eventWithProducerTime)
       } else {
-        new ProducerRecord[String, String]("policy-events", insuranceQuoteId, eventWithProducerTime)
-        // new ProducerRecord[String, String]("policy-events-constrained", insuranceQuoteId, eventWithProducerTime)
+        // new ProducerRecord[String, String]("policy-events", insuranceQuoteId, eventWithProducerTime)
+        new ProducerRecord[String, String]("policy-events-constrained", insuranceQuoteId, eventWithProducerTime)
       }
 
       producer.send(record, new CompareProducerCallback)
