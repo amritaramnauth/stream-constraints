@@ -10,4 +10,5 @@ import java.util.function.BiFunction
   * 
   */
 case class DeduplicateConstraint[K, V](deduplicate: ((K, V) => Boolean, String),
-                                        retentionPeriodMs: Long, valueComparator: BiFunction[V, V, Boolean] ) {}
+                                       retentionPeriodMs: Long, 
+                                       valueComparator: BiFunction[V, V, Boolean] ) {}

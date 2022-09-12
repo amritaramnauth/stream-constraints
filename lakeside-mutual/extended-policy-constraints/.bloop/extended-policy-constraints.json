@@ -1,0 +1,1121 @@
+{
+    "version": "1.4.0",
+    "project": {
+        "name": "extended-policy-constraints",
+        "directory": "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints",
+        "workspaceDir": "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints",
+        "sources": [
+            "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints/src/main/scala",
+            "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints/src/main/scala-2.13",
+            "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints/src/main/scala-2",
+            "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints/src/main/java",
+            "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints/target/scala-2.13/src_managed/main"
+        ],
+        "dependencies": [
+            
+        ],
+        "classpath": [
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.4/scala-library-2.13.4.jar",
+            "/home/amrita/.ivy2/local/com.github.annterina/stream-constraints_2.13/0.8.0/jars/stream-constraints_2.13.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/kafka-streams/2.7.0/kafka-streams-2.7.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/kafka-streams-scala_2.13/2.7.0/kafka-streams-scala_2.13-2.7.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/hateoas/spring-hateoas/1.3.0/spring-hateoas-1.3.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/microservice-api-patterns/domaindrivendesign-library/0.2.4/domaindrivendesign-library-0.2.4.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.12.0/jackson-module-scala_2.13-2.12.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-graph/graph-core_2.13/1.13.2/graph-core_2.13-1.13.2.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-graph/graph-json_2.13/1.13.0/graph-json_2.13-1.13.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-graph/graph-dot_2.13/1.13.0/graph-dot_2.13-1.13.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/guru/nidi/graphviz-java/0.18.1/graphviz-java-0.18.1.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/liftweb/lift-json_2.13/3.4.3/lift-json_2.13-3.4.3.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/connect-json/2.7.0/connect-json-2.7.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/rocksdb/rocksdbjni/5.18.4/rocksdbjni-5.18.4.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-collection-compat_2.13/2.2.0/scala-collection-compat_2.13-2.2.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-aop/5.3.6/spring-aop-5.3.6.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-beans/5.3.6/spring-beans-5.3.6.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-context/5.3.6/spring-context-5.3.6.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-core/5.3.6/spring-core-5.3.6.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-web/5.3.6/spring-web-5.3.6.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/plugin/spring-plugin-core/2.0.0.RELEASE/spring-plugin-core-2.0.0.RELEASE.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/jayway/jsonpath/json-path/2.5.0/json-path-2.5.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.12.0/jackson-core-2.12.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.12.0/jackson-annotations-2.12.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.12.0/jackson-databind-2.12.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/guru/nidi/com/eclipsesource/j2v8/j2v8_linux_x86_64/4.6.0/j2v8_linux_x86_64-4.6.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/webjars/npm/viz.js-graphviz-java/2.1.3/viz.js-graphviz-java-2.1.3.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/guru/nidi/com/kitfox/svgSalamander/1.1.3/svgSalamander-1.1.3.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/arnx/nashorn-promise/0.1.1/nashorn-promise-0.1.1.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/commons/commons-exec/1.3/commons-exec-1.3.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/jcl-over-slf4j/1.7.30/jcl-over-slf4j-1.7.30.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/jul-to-slf4j/1.7.30/jul-to-slf4j-1.7.30.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scalap/2.13.4/scalap-2.13.4.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/thoughtworks/paranamer/paranamer/2.8/paranamer-2.8.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.3.0/scala-xml_2.13-1.3.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/connect-api/2.7.0/connect-api-2.7.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.10.5/jackson-datatype-jdk8-2.10.5.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-expression/5.3.6/spring-expression-5.3.6.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-jcl/5.3.6/spring-jcl-5.3.6.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/minidev/json-smart/2.3/json-smart-2.3.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.4/scala-compiler-2.13.4.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/minidev/accessors-smart/1.2/accessors-smart-1.2.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.4/scala-reflect-2.13.4.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jline/jline/3.16.0/jline-3.16.0.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/java/dev/jna/jna/5.3.1/jna-5.3.1.jar",
+            "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/ow2/asm/asm/5.0.4/asm-5.0.4.jar"
+        ],
+        "out": "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints/.bloop/extended-policy-constraints",
+        "classesDir": "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints/.bloop/extended-policy-constraints/scala-2.13/classes",
+        "resources": [
+            "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints/src/main/resources",
+            "/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints/target/scala-2.13/resource_managed/main"
+        ],
+        "scala": {
+            "organization": "org.scala-lang",
+            "name": "scala-compiler",
+            "version": "2.13.4",
+            "options": [
+                
+            ],
+            "jars": [
+                "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.4/scala-compiler-2.13.4.jar",
+                "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.4/scala-library-2.13.4.jar",
+                "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.4/scala-reflect-2.13.4.jar",
+                "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jline/jline/3.16.0/jline-3.16.0.jar",
+                "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/java/dev/jna/jna/5.3.1/jna-5.3.1.jar"
+            ],
+            "setup": {
+                "order": "mixed",
+                "addLibraryToBootClasspath": true,
+                "addCompilerToClasspath": false,
+                "addExtraJarsToClasspath": false,
+                "manageBootClasspath": true,
+                "filterLibraryFromClasspath": true
+            }
+        },
+        "java": {
+            "options": [
+                
+            ]
+        },
+        "test": {
+            "frameworks": [
+                {
+                    "names": [
+                        "org.scalacheck.ScalaCheckFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.specs2.runner.Specs2Framework",
+                        "org.specs2.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.specs.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.scalatest.tools.Framework",
+                        "org.scalatest.tools.ScalaTestFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "com.novocode.junit.JUnitFramework"
+                    ]
+                }
+            ],
+            "options": {
+                "excludes": [
+                    
+                ],
+                "arguments": [
+                    
+                ]
+            }
+        },
+        "platform": {
+            "name": "jvm",
+            "config": {
+                "home": "/home/amrita/.sdkman/candidates/java/17.0.4-tem",
+                "options": [
+                    "-Duser.dir=/home/amrita/code/stream-constraints/lakeside-mutual/extended-policy-constraints"
+                ]
+            },
+            "mainClass": [
+                
+            ]
+        },
+        "resolution": {
+            "modules": [
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scala-library",
+                    "version": "2.13.4",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scala-library",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.4/scala-library-2.13.4.jar"
+                        },
+                        {
+                            "name": "scala-library",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.4/scala-library-2.13.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.github.annterina",
+                    "name": "stream-constraints_2.13",
+                    "version": "0.8.0",
+                    "configurations": "compile",
+                    "artifacts": [
+                        {
+                            "name": "stream-constraints_2.13",
+                            "checksum": {
+                                "type": "sha1",
+                                "digest": "cc54051fd5c1efe254c649b3595a8f7e185a7b71"
+                            },
+                            "path": "/home/amrita/.ivy2/local/com.github.annterina/stream-constraints_2.13/0.8.0/jars/stream-constraints_2.13.jar"
+                        },
+                        {
+                            "name": "stream-constraints_2.13",
+                            "classifier": "sources",
+                            "checksum": {
+                                "type": "sha1",
+                                "digest": "f93d25c658fb6e7e8540062542757f01693eb794"
+                            },
+                            "path": "/home/amrita/.ivy2/local/com.github.annterina/stream-constraints_2.13/0.8.0/srcs/stream-constraints_2.13-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.kafka",
+                    "name": "kafka-streams",
+                    "version": "2.7.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "kafka-streams",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/kafka-streams/2.7.0/kafka-streams-2.7.0.jar"
+                        },
+                        {
+                            "name": "kafka-streams",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/kafka-streams/2.7.0/kafka-streams-2.7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.kafka",
+                    "name": "kafka-streams-scala_2.13",
+                    "version": "2.7.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "kafka-streams-scala_2.13",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/kafka-streams-scala_2.13/2.7.0/kafka-streams-scala_2.13-2.7.0.jar"
+                        },
+                        {
+                            "name": "kafka-streams-scala_2.13",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/kafka-streams-scala_2.13/2.7.0/kafka-streams-scala_2.13-2.7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.kafka",
+                    "name": "kafka-clients",
+                    "version": "2.7.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "kafka-clients",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar"
+                        },
+                        {
+                            "name": "kafka-clients",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework.hateoas",
+                    "name": "spring-hateoas",
+                    "version": "1.3.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spring-hateoas",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/hateoas/spring-hateoas/1.3.0/spring-hateoas-1.3.0.jar"
+                        },
+                        {
+                            "name": "spring-hateoas",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/hateoas/spring-hateoas/1.3.0/spring-hateoas-1.3.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.microservice-api-patterns",
+                    "name": "domaindrivendesign-library",
+                    "version": "0.2.4",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "domaindrivendesign-library",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/microservice-api-patterns/domaindrivendesign-library/0.2.4/domaindrivendesign-library-0.2.4.jar"
+                        },
+                        {
+                            "name": "domaindrivendesign-library",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/microservice-api-patterns/domaindrivendesign-library/0.2.4/domaindrivendesign-library-0.2.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "ch.qos.logback",
+                    "name": "logback-classic",
+                    "version": "1.2.3",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "logback-classic",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar"
+                        },
+                        {
+                            "name": "logback-classic",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.fasterxml.jackson.module",
+                    "name": "jackson-module-scala_2.13",
+                    "version": "2.12.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jackson-module-scala_2.13",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.12.0/jackson-module-scala_2.13-2.12.0.jar"
+                        },
+                        {
+                            "name": "jackson-module-scala_2.13",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.12.0/jackson-module-scala_2.13-2.12.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-graph",
+                    "name": "graph-core_2.13",
+                    "version": "1.13.2",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "graph-core_2.13",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-graph/graph-core_2.13/1.13.2/graph-core_2.13-1.13.2.jar"
+                        },
+                        {
+                            "name": "graph-core_2.13",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-graph/graph-core_2.13/1.13.2/graph-core_2.13-1.13.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-graph",
+                    "name": "graph-json_2.13",
+                    "version": "1.13.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "graph-json_2.13",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-graph/graph-json_2.13/1.13.0/graph-json_2.13-1.13.0.jar"
+                        },
+                        {
+                            "name": "graph-json_2.13",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-graph/graph-json_2.13/1.13.0/graph-json_2.13-1.13.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-graph",
+                    "name": "graph-dot_2.13",
+                    "version": "1.13.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "graph-dot_2.13",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-graph/graph-dot_2.13/1.13.0/graph-dot_2.13-1.13.0.jar"
+                        },
+                        {
+                            "name": "graph-dot_2.13",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-graph/graph-dot_2.13/1.13.0/graph-dot_2.13-1.13.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "guru.nidi",
+                    "name": "graphviz-java",
+                    "version": "0.18.1",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "graphviz-java",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/guru/nidi/graphviz-java/0.18.1/graphviz-java-0.18.1.jar"
+                        },
+                        {
+                            "name": "graphviz-java",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/guru/nidi/graphviz-java/0.18.1/graphviz-java-0.18.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "net.liftweb",
+                    "name": "lift-json_2.13",
+                    "version": "3.4.3",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "lift-json_2.13",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/liftweb/lift-json_2.13/3.4.3/lift-json_2.13-3.4.3.jar"
+                        },
+                        {
+                            "name": "lift-json_2.13",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/liftweb/lift-json_2.13/3.4.3/lift-json_2.13-3.4.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.kafka",
+                    "name": "connect-json",
+                    "version": "2.7.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "connect-json",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/connect-json/2.7.0/connect-json-2.7.0.jar"
+                        },
+                        {
+                            "name": "connect-json",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/connect-json/2.7.0/connect-json-2.7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.slf4j",
+                    "name": "slf4j-api",
+                    "version": "1.7.30",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "slf4j-api",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar"
+                        },
+                        {
+                            "name": "slf4j-api",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.rocksdb",
+                    "name": "rocksdbjni",
+                    "version": "5.18.4",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "rocksdbjni",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/rocksdb/rocksdbjni/5.18.4/rocksdbjni-5.18.4.jar"
+                        },
+                        {
+                            "name": "rocksdbjni",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/rocksdb/rocksdbjni/5.18.4/rocksdbjni-5.18.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-lang.modules",
+                    "name": "scala-collection-compat_2.13",
+                    "version": "2.2.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scala-collection-compat_2.13",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-collection-compat_2.13/2.2.0/scala-collection-compat_2.13-2.2.0.jar"
+                        },
+                        {
+                            "name": "scala-collection-compat_2.13",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-collection-compat_2.13/2.2.0/scala-collection-compat_2.13-2.2.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.github.luben",
+                    "name": "zstd-jni",
+                    "version": "1.4.5-6",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "zstd-jni",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar"
+                        },
+                        {
+                            "name": "zstd-jni",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.lz4",
+                    "name": "lz4-java",
+                    "version": "1.7.1",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "lz4-java",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar"
+                        },
+                        {
+                            "name": "lz4-java",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.xerial.snappy",
+                    "name": "snappy-java",
+                    "version": "1.1.7.7",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "snappy-java",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar"
+                        },
+                        {
+                            "name": "snappy-java",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework",
+                    "name": "spring-aop",
+                    "version": "5.3.6",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spring-aop",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-aop/5.3.6/spring-aop-5.3.6.jar"
+                        },
+                        {
+                            "name": "spring-aop",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-aop/5.3.6/spring-aop-5.3.6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework",
+                    "name": "spring-beans",
+                    "version": "5.3.6",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spring-beans",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-beans/5.3.6/spring-beans-5.3.6.jar"
+                        },
+                        {
+                            "name": "spring-beans",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-beans/5.3.6/spring-beans-5.3.6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework",
+                    "name": "spring-context",
+                    "version": "5.3.6",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spring-context",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-context/5.3.6/spring-context-5.3.6.jar"
+                        },
+                        {
+                            "name": "spring-context",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-context/5.3.6/spring-context-5.3.6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework",
+                    "name": "spring-core",
+                    "version": "5.3.6",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spring-core",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-core/5.3.6/spring-core-5.3.6.jar"
+                        },
+                        {
+                            "name": "spring-core",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-core/5.3.6/spring-core-5.3.6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework",
+                    "name": "spring-web",
+                    "version": "5.3.6",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spring-web",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-web/5.3.6/spring-web-5.3.6.jar"
+                        },
+                        {
+                            "name": "spring-web",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-web/5.3.6/spring-web-5.3.6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework.plugin",
+                    "name": "spring-plugin-core",
+                    "version": "2.0.0.RELEASE",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spring-plugin-core",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/plugin/spring-plugin-core/2.0.0.RELEASE/spring-plugin-core-2.0.0.RELEASE.jar"
+                        },
+                        {
+                            "name": "spring-plugin-core",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/plugin/spring-plugin-core/2.0.0.RELEASE/spring-plugin-core-2.0.0.RELEASE-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.jayway.jsonpath",
+                    "name": "json-path",
+                    "version": "2.5.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "json-path",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/jayway/jsonpath/json-path/2.5.0/json-path-2.5.0.jar"
+                        },
+                        {
+                            "name": "json-path",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/jayway/jsonpath/json-path/2.5.0/json-path-2.5.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "ch.qos.logback",
+                    "name": "logback-core",
+                    "version": "1.2.3",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "logback-core",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar"
+                        },
+                        {
+                            "name": "logback-core",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.fasterxml.jackson.core",
+                    "name": "jackson-core",
+                    "version": "2.12.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jackson-core",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.12.0/jackson-core-2.12.0.jar"
+                        },
+                        {
+                            "name": "jackson-core",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.12.0/jackson-core-2.12.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.fasterxml.jackson.core",
+                    "name": "jackson-annotations",
+                    "version": "2.12.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jackson-annotations",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.12.0/jackson-annotations-2.12.0.jar"
+                        },
+                        {
+                            "name": "jackson-annotations",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.12.0/jackson-annotations-2.12.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.fasterxml.jackson.core",
+                    "name": "jackson-databind",
+                    "version": "2.12.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jackson-databind",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.12.0/jackson-databind-2.12.0.jar"
+                        },
+                        {
+                            "name": "jackson-databind",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.12.0/jackson-databind-2.12.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "guru.nidi.com.eclipsesource.j2v8",
+                    "name": "j2v8_linux_x86_64",
+                    "version": "4.6.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "j2v8_linux_x86_64",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/guru/nidi/com/eclipsesource/j2v8/j2v8_linux_x86_64/4.6.0/j2v8_linux_x86_64-4.6.0.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.webjars.npm",
+                    "name": "viz.js-graphviz-java",
+                    "version": "2.1.3",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "viz.js-graphviz-java",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/webjars/npm/viz.js-graphviz-java/2.1.3/viz.js-graphviz-java-2.1.3.jar"
+                        },
+                        {
+                            "name": "viz.js-graphviz-java",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/webjars/npm/viz.js-graphviz-java/2.1.3/viz.js-graphviz-java-2.1.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "guru.nidi.com.kitfox",
+                    "name": "svgSalamander",
+                    "version": "1.1.3",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "svgSalamander",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/guru/nidi/com/kitfox/svgSalamander/1.1.3/svgSalamander-1.1.3.jar"
+                        },
+                        {
+                            "name": "svgSalamander",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/guru/nidi/com/kitfox/svgSalamander/1.1.3/svgSalamander-1.1.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "net.arnx",
+                    "name": "nashorn-promise",
+                    "version": "0.1.1",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "nashorn-promise",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/arnx/nashorn-promise/0.1.1/nashorn-promise-0.1.1.jar"
+                        },
+                        {
+                            "name": "nashorn-promise",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/arnx/nashorn-promise/0.1.1/nashorn-promise-0.1.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.commons",
+                    "name": "commons-exec",
+                    "version": "1.3",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "commons-exec",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/commons/commons-exec/1.3/commons-exec-1.3.jar"
+                        },
+                        {
+                            "name": "commons-exec",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/commons/commons-exec/1.3/commons-exec-1.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.google.code.findbugs",
+                    "name": "jsr305",
+                    "version": "3.0.2",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jsr305",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar"
+                        },
+                        {
+                            "name": "jsr305",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.slf4j",
+                    "name": "jcl-over-slf4j",
+                    "version": "1.7.30",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jcl-over-slf4j",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/jcl-over-slf4j/1.7.30/jcl-over-slf4j-1.7.30.jar"
+                        },
+                        {
+                            "name": "jcl-over-slf4j",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/jcl-over-slf4j/1.7.30/jcl-over-slf4j-1.7.30-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.slf4j",
+                    "name": "jul-to-slf4j",
+                    "version": "1.7.30",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jul-to-slf4j",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/jul-to-slf4j/1.7.30/jul-to-slf4j-1.7.30.jar"
+                        },
+                        {
+                            "name": "jul-to-slf4j",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/jul-to-slf4j/1.7.30/jul-to-slf4j-1.7.30-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scalap",
+                    "version": "2.13.4",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scalap",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scalap/2.13.4/scalap-2.13.4.jar"
+                        },
+                        {
+                            "name": "scalap",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scalap/2.13.4/scalap-2.13.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.thoughtworks.paranamer",
+                    "name": "paranamer",
+                    "version": "2.8",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "paranamer",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/thoughtworks/paranamer/paranamer/2.8/paranamer-2.8.jar"
+                        },
+                        {
+                            "name": "paranamer",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/thoughtworks/paranamer/paranamer/2.8/paranamer-2.8-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-lang.modules",
+                    "name": "scala-xml_2.13",
+                    "version": "1.3.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scala-xml_2.13",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.3.0/scala-xml_2.13-1.3.0.jar"
+                        },
+                        {
+                            "name": "scala-xml_2.13",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.3.0/scala-xml_2.13-1.3.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.kafka",
+                    "name": "connect-api",
+                    "version": "2.7.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "connect-api",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/connect-api/2.7.0/connect-api-2.7.0.jar"
+                        },
+                        {
+                            "name": "connect-api",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/kafka/connect-api/2.7.0/connect-api-2.7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.fasterxml.jackson.datatype",
+                    "name": "jackson-datatype-jdk8",
+                    "version": "2.10.5",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jackson-datatype-jdk8",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.10.5/jackson-datatype-jdk8-2.10.5.jar"
+                        },
+                        {
+                            "name": "jackson-datatype-jdk8",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.10.5/jackson-datatype-jdk8-2.10.5-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework",
+                    "name": "spring-expression",
+                    "version": "5.3.6",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spring-expression",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-expression/5.3.6/spring-expression-5.3.6.jar"
+                        },
+                        {
+                            "name": "spring-expression",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-expression/5.3.6/spring-expression-5.3.6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework",
+                    "name": "spring-jcl",
+                    "version": "5.3.6",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spring-jcl",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-jcl/5.3.6/spring-jcl-5.3.6.jar"
+                        },
+                        {
+                            "name": "spring-jcl",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/springframework/spring-jcl/5.3.6/spring-jcl-5.3.6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "net.minidev",
+                    "name": "json-smart",
+                    "version": "2.3",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "json-smart",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/minidev/json-smart/2.3/json-smart-2.3.jar"
+                        },
+                        {
+                            "name": "json-smart",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/minidev/json-smart/2.3/json-smart-2.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scala-compiler",
+                    "version": "2.13.4",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scala-compiler",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.4/scala-compiler-2.13.4.jar"
+                        },
+                        {
+                            "name": "scala-compiler",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.4/scala-compiler-2.13.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "net.minidev",
+                    "name": "accessors-smart",
+                    "version": "1.2",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "accessors-smart",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/minidev/accessors-smart/1.2/accessors-smart-1.2.jar"
+                        },
+                        {
+                            "name": "accessors-smart",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/minidev/accessors-smart/1.2/accessors-smart-1.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scala-reflect",
+                    "version": "2.13.4",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scala-reflect",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.4/scala-reflect-2.13.4.jar"
+                        },
+                        {
+                            "name": "scala-reflect",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.4/scala-reflect-2.13.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.jline",
+                    "name": "jline",
+                    "version": "3.16.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jline",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jline/jline/3.16.0/jline-3.16.0.jar"
+                        },
+                        {
+                            "name": "jline",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jline/jline/3.16.0/jline-3.16.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "net.java.dev.jna",
+                    "name": "jna",
+                    "version": "5.3.1",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jna",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/java/dev/jna/jna/5.3.1/jna-5.3.1.jar"
+                        },
+                        {
+                            "name": "jna",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/net/java/dev/jna/jna/5.3.1/jna-5.3.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.ow2.asm",
+                    "name": "asm",
+                    "version": "5.0.4",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "asm",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/ow2/asm/asm/5.0.4/asm-5.0.4.jar"
+                        },
+                        {
+                            "name": "asm",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/ow2/asm/asm/5.0.4/asm-5.0.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scala-compiler",
+                    "version": "2.13.4",
+                    "configurations": "optional",
+                    "artifacts": [
+                        {
+                            "name": "scala-compiler",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.4/scala-compiler-2.13.4.jar"
+                        },
+                        {
+                            "name": "scala-compiler",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.4/scala-compiler-2.13.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scala-library",
+                    "version": "2.13.4",
+                    "configurations": "optional",
+                    "artifacts": [
+                        {
+                            "name": "scala-library",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.4/scala-library-2.13.4.jar"
+                        },
+                        {
+                            "name": "scala-library",
+                            "classifier": "sources",
+                            "path": "/home/amrita/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.4/scala-library-2.13.4-sources.jar"
+                        }
+                    ]
+                }
+            ]
+        },
+        "tags": [
+            "library"
+        ]
+    }
+}
